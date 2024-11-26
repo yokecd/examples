@@ -1,0 +1,20 @@
+# Ironically the task runner is itself a dev dependency of the project.
+# To install it run the following command:
+#
+# go install github.com/go-task/task/v3/cmd/task@latest
+
+version: '3'
+
+tasks:
+  fmt:
+    cmds:
+      - goimports -local github.com/yokecd/examples -w .
+      - goimports -local github.com/yokecd/yoke -w .
+      - goimports -local k8s.io -w .
+      - gofumpt -w .
+
+  update-deps:
+    cmds:
+      - go get -u ./...
+      - go get github.com/tetratelabs/wazero@v1.6.0
+      - go mod tidy
