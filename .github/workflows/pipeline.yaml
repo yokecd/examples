@@ -40,8 +40,8 @@ jobs:
           gzip atc_backend_v1_flight.wasm
           gzip atc_backend_airway.wasm
 
-          if [[ $(gh release list --json tagName -q 'any(.[]; .tagName == "latest")') ]]; then
+          if [[ $(gh release list --json tagName -q 'any(.[]; .tagName == "latest")') != 'true' ]]; then
             gh release create latest ./atc_backend_v1_flight.wasm.gz ./atc_backend_airway.wasm.gz
           else
-            gh release upload latest --clobber ../atc_backend_v1_flight.wasm.gz ./atc_backend_airway.wasm.gz 
+            gh release upload latest --clobber ./atc_backend_v1_flight.wasm.gz ./atc_backend_airway.wasm.gz 
           fi
