@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"reflect"
-	"time"
 
 	apiextv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -25,15 +24,13 @@ func main() {
 
 func run() error {
 	return json.NewEncoder(os.Stdout).Encode(v1alpha1.Airway{
-		TypeMeta: metav1.TypeMeta{},
 		ObjectMeta: metav1.ObjectMeta{
 			Name: "backends.examples.com",
 		},
 		Spec: v1alpha1.AirwaySpec{
 			WasmURLs: map[string]string{
-				"v1": "http://wasmcache",
+				"v1": "https://github.com/yokecd/examples/releases/download/latest/atc_backend_v1_flight.wasm.gz",
 			},
-			FixDriftInterval: openapi.Duration(30 * time.Second),
 			Template: apiextv1.CustomResourceDefinitionSpec{
 				Group: "examples.com",
 				Names: apiextv1.CustomResourceDefinitionNames{
