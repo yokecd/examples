@@ -9,15 +9,13 @@ import (
 	"os"
 	"strconv"
 
-	// path to the package where we defined our Backend type.
-	"golang.org/x/term"
-
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 	"k8s.io/apimachinery/pkg/util/yaml"
 
+	// path to the package where we defined our Backend type.
 	v1 "github.com/yokecd/examples/atc/backend/v1"
 )
 
@@ -29,31 +27,33 @@ func main() {
 }
 
 func run() error {
-	// We will deserialize standard input into an instance of our v1.Backend
+	// When this flight is invoked, the atc will pass the JSON representation of the Backend instance to this program via standard input.
+	// We can use the yaml to json decoder so that we can pass yaml definitions manually when testing for convenience.
 	var backend v1.Backend
-	if !term.IsTerminal(int(os.Stdin.Fd())) {
-		if err := yaml.NewYAMLToJSONDecoder(os.Stdin).Decode(&backend); err != nil && err != io.EOF {
-			return err
-		}
+	if err := yaml.NewYAMLToJSONDecoder(os.Stdin).Decode(&backend); err != nil && err != io.EOF {
+		return err
 	}
 
 	// Configure some sane defaults
-
 	backend.Spec.ServicePort = cmp.Or(backend.Spec.ServicePort, 3000)
 
+	// Make sure that our labels include our custom selector.
 	if backend.Spec.Labels == nil {
 		backend.Spec.Labels = map[string]string{}
 	}
-
 	maps.Copy(backend.Spec.Labels, selector(backend))
 
 	// Create our resources (Deployment and Service) and encode them back out via Stdout.
-
 	return json.NewEncoder(os.Stdout).Encode([]any{
 		createDeployment(backend),
 		createService(backend),
 	})
 }
+
+// The following functions create standard kubernetes resources from our backend resource definition.
+// It utilizes the base types found in `k8s.io/api` and is essentially the same as writing the types free-hand via yaml
+// except that we have strong typing, type-checking, and documentation at our finger tips. All this at the reasonable
+// cost of a little more verbosity.
 
 func createDeployment(backend v1.Backend) *appsv1.Deployment {
 	return &appsv1.Deployment{
@@ -131,6 +131,7 @@ func createService(backend v1.Backend) *corev1.Service {
 	}
 }
 
+// Our selector for our backend application. Independent from the regular labels passed in the backend spec.
 func selector(backend v1.Backend) map[string]string {
 	return map[string]string{"app": backend.Name}
 }
