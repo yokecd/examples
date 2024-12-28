@@ -28,8 +28,8 @@ func run() error {
 			Name: "backends.examples.com",
 		},
 		Spec: v1alpha1.AirwaySpec{
-			WasmURLs: map[string]string{
-				"v1": "https://github.com/yokecd/examples/releases/download/latest/atc_backend_v1_flight.wasm.gz",
+			WasmURLs: v1alpha1.WasmURLs{
+				Flight: "https://github.com/yokecd/examples/releases/download/latest/atc_backend_v1_flight.wasm.gz",
 			},
 			Template: apiextv1.CustomResourceDefinitionSpec{
 				Group: "examples.com",
