@@ -35,13 +35,24 @@ jobs:
           GOARCH: wasm
         run: |
           go build -o ./atc_backend_v1_flight.wasm ./atc/backend/v1/flight
+          go build -o ./atc_backend_v2_flight.wasm ./atc/backend/v2/flight
+          go build -o ./atc_backend_converter.wasm ./atc/backend/converter
           go build -o ./atc_backend_airway.wasm ./atc/backend/airway
+          go build -o ./atc_backend_airway_v2.wasm ./atc/backend/airwayv2
 
           gzip atc_backend_v1_flight.wasm
+          gzip atc_backend_v2_flight.wasm
           gzip atc_backend_airway.wasm
+          gzip atc_backend_airway_v2.wasm
+          gzip atc_backend_converter.wasm
 
           if [[ $(gh release list --json tagName -q 'any(.[]; .tagName == "latest")') != 'true' ]]; then
             gh release create latest ./atc_backend_v1_flight.wasm.gz ./atc_backend_airway.wasm.gz
           else
-            gh release upload latest --clobber ./atc_backend_v1_flight.wasm.gz ./atc_backend_airway.wasm.gz 
+            gh release upload latest --clobber \
+              ./atc_backend_v1_flight.wasm.gz \
+              ./atc_backend_v2_flight.wasm.gz \
+              ./atc_backend_converter.wasm.gz \
+              ./atc_backend_airway.wasm.gz  \
+              ./atc_backend_airway_v2.wasm.gz 
           fi
