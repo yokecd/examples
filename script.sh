@@ -18,7 +18,7 @@ runtimeConfig:
 EOF
 
 # install the atc
-yoke takeoff -wait 30s --namespace atc atc 'https://github.com/yokecd/yoke/releases/download/atc-installer%2Fv0.5.3/atc-installer.wasm.gz'
+yoke takeoff -wait 30s --namespace atc atc 'https://github.com/yokecd/yoke/releases/download/latest/atc-installer.wasm.gz'
 
 # install the yokcd/examples Backend-Airway
 yoke takeoff -wait 30s backendairway "https://github.com/yokecd/examples/releases/download/latest/atc_backend_airway.wasm.gz"
