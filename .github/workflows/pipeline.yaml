@@ -56,3 +56,6 @@ jobs:
               ./atc_backend_airway.wasm.gz  \
               ./atc_backend_airway_v2.wasm.gz 
           fi
+
+          git tag -f latest
+          git push --tags -f
