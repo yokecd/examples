@@ -7,9 +7,11 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/yokecd/yoke/pkg/flight"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/utils/ptr"
 )
 
 func main() {
@@ -30,7 +32,7 @@ func run() error {
 		replicas = 2
 	}
 
-	dep := appsv1.Deployment{
+	dep := &appsv1.Deployment{
 		TypeMeta: metav1.TypeMeta{
 			APIVersion: appsv1.SchemeGroupVersion.Identifier(),
 			Kind:       "Deployment",
@@ -40,7 +42,7 @@ func run() error {
 			Labels: labels,
 		},
 		Spec: appsv1.DeploymentSpec{
-			Replicas: ptr(int32(replicas)),
+			Replicas: ptr.To(int32(replicas)),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: labels,
 			},
@@ -61,7 +63,5 @@ func run() error {
 		},
 	}
 
-	return json.NewEncoder(os.Stdout).Encode([]any{dep})
+	return json.NewEncoder(os.Stdout).Encode(flight.Stage{dep})
 }
-
-func ptr[T any](value T) *T { return &value }

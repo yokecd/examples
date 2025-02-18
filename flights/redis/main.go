@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/yokecd/yoke/examples/internal/flights/redis"
+	redis "github.com/yokecd/examples/flights/redis/impl"
 )
 
 func main() {
