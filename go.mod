@@ -3,7 +3,7 @@ module github.com/yokecd/examples
 go 1.24.0
 
 require (
-	github.com/yokecd/yoke v0.8.2
+	github.com/yokecd/yoke v0.9.2
 	golang.org/x/term v0.29.0
 	gopkg.in/yaml.v3 v3.0.1
 	k8s.io/api v0.32.2
@@ -59,7 +59,7 @@ require (
 	golang.org/x/time v0.10.0 // indirect
 	google.golang.org/protobuf v1.36.5 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
-	helm.sh/helm/v3 v3.17.0 // indirect
+	helm.sh/helm/v3 v3.17.1 // indirect
 	k8s.io/client-go v0.32.2 // indirect
 	k8s.io/klog/v2 v2.130.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20241212222426-2c72e554b1e7 // indirect
