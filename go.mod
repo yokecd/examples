@@ -3,7 +3,7 @@ module github.com/yokecd/examples
 go 1.24.0
 
 require (
-	github.com/yokecd/yoke v0.9.2
+	github.com/yokecd/yoke v0.10.0
 	golang.org/x/term v0.29.0
 	gopkg.in/yaml.v3 v3.0.1
 	k8s.io/api v0.32.2
