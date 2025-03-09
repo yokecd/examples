@@ -57,7 +57,7 @@ func run() error {
 	resources := []flight.Resource{
 		CreateDeployment(DeploymentConfig{
 			Labels:   values.Labels,
-			Replicas: 2,
+			Replicas: values.Replicas,
 			Port:     values.ContainerPort,
 		}),
 		CreateService(ServiceConfig{
