@@ -24,7 +24,7 @@ spec:
         app: example-app
     spec:
       containers:
-      - name: example-app-container
+      - name: example-app
         image: nginx:latest  # Replace with your actual container image
         ports:
         - containerPort: 80
