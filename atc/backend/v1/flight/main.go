@@ -15,6 +15,8 @@ import (
 	"k8s.io/apimachinery/pkg/util/intstr"
 	"k8s.io/apimachinery/pkg/util/yaml"
 
+	"github.com/yokecd/yoke/pkg/flight"
+
 	// path to the package where we defined our Backend type.
 	v1 "github.com/yokecd/examples/atc/backend/v1"
 )
@@ -44,7 +46,7 @@ func run() error {
 	maps.Copy(backend.Spec.Labels, selector(backend))
 
 	// Create our resources (Deployment and Service) and encode them back out via Stdout.
-	return json.NewEncoder(os.Stdout).Encode([]any{
+	return json.NewEncoder(os.Stdout).Encode([]flight.Resource{
 		createDeployment(backend),
 		createService(backend),
 	})
