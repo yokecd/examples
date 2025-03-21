@@ -21,7 +21,7 @@ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/late
 kubectl patch -n kube-system deployment metrics-server --type=json -p '[{"op":"add","path":"/spec/template/spec/containers/0/args/-","value":"--kubelet-insecure-tls"}]'
 
 # install the atc
-yoke takeoff -debug -wait 1m --create-namespace --namespace atc atc 'https://github.com/yokecd/yoke/releases/download/latest/atc-installer.wasm.gz'
+yoke takeoff -debug -wait 1m --create-namespace --namespace atc atc oci://ghcr.io/yokecd/atc-installer:latest
 
 # install the yokcd/examples Backend-Airway
 yoke takeoff -debug -wait 1m backendairway "https://github.com/yokecd/examples/releases/download/latest/atc_backend_airway.wasm.gz"

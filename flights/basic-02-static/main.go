@@ -63,5 +63,5 @@ func run() error {
 		},
 	}
 
-	return json.NewEncoder(os.Stdout).Encode(flight.Stage{deployment})
+	return json.NewEncoder(os.Stdout).Encode(flight.Resources{deployment})
 }
