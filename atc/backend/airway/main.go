@@ -28,6 +28,7 @@ func run() error {
 			Name: "backends.examples.com",
 		},
 		Spec: v1alpha1.AirwaySpec{
+			Mode: v1alpha1.AirwayModeStandard,
 			WasmURLs: v1alpha1.WasmURLs{
 				Flight: "https://github.com/yokecd/examples/releases/download/latest/atc_backend_v1_flight.wasm.gz",
 			},
