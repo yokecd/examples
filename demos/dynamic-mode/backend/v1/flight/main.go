@@ -7,13 +7,16 @@ import (
 	"os"
 
 	"github.com/external-secrets/external-secrets/apis/externalsecrets/v1beta1"
-	v1 "github.com/yokecd/examples/demos/dynamic-mode/backend/v1"
-	"github.com/yokecd/yoke/pkg/flight"
-	"github.com/yokecd/yoke/pkg/flight/wasi/k8s"
+
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/yaml"
+
+	"github.com/yokecd/yoke/pkg/flight"
+	"github.com/yokecd/yoke/pkg/flight/wasi/k8s"
+
+	v1 "github.com/yokecd/examples/demos/dynamic-mode/backend/v1"
 )
 
 func main() {
