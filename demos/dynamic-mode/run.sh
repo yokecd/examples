@@ -4,10 +4,9 @@ CLUSTER=demo-dynamic-mode
 
 kind delete cluster --name=$CLUSTER && kind create cluster --name=$CLUSTER
 
-GOOS=wasip1 GOARCH=wasm go build -o ./demos/dynamic-mode/build-artifacts/flight.wasm ./demos/dynamic-mode/backend/flight
 GOOS=wasip1 GOARCH=wasm go build -o ./demos/dynamic-mode/build-artifacts/setup.wasm ./demos/dynamic-mode/setup
-
 yoke takeoff --debug --wait 5m demo ./demos/dynamic-mode/build-artifacts/setup.wasm
+
 yoke takeoff --debug --wait 2m --namespace atc --create-namespace atc oci://ghcr.io/yokecd/atc-installer:latest
 
 export VAULT_ADDR=http://localhost:8200
