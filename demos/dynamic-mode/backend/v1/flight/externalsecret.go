@@ -31,8 +31,8 @@ type Target struct {
 }
 
 type Data struct {
-	SecretKeyRef string    `json:"secretKeyRef"`
-	RemoteRef    RemoteRef `json:"remoteRef"`
+	SecretKey string    `json:"secretKey"`
+	RemoteRef RemoteRef `json:"remoteRef"`
 }
 
 type RemoteRef struct {

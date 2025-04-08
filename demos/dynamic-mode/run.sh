@@ -18,7 +18,7 @@ kubectl port-forward svc/demo-vault 8200:8200 &
 sleep 1
 vault kv put secret/demo hello=world
 
-go run ./demos/dynamic-mode/airway | yoke takeoff -wait 1m demo-airway
+go run ./demos/dynamic-mode/airway | yoke takeoff -debug -wait 1m demo-airway
 
 kubectl apply -f - <<EOF
 apiVersion: examples.com/v1

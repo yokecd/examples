@@ -75,7 +75,7 @@ func run() error {
 				var result []Data
 				for _, value := range backend.Spec.Secrets {
 					result = append(result, Data{
-						SecretKeyRef: value.Key,
+						SecretKey: value.Key,
 						RemoteRef: RemoteRef{
 							Key:      value.Path,
 							Property: value.Key,
