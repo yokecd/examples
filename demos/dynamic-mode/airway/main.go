@@ -25,7 +25,7 @@ func main() {
 		},
 		Spec: v1alpha1.AirwaySpec{
 			WasmURLs: v1alpha1.WasmURLs{
-				Flight: "TODO",
+				Flight: "https://github.com/yokecd/examples/releases/download/latest/demos_dynamic_mode_v1_flight.wasm.gz",
 			},
 			Mode:          v1alpha1.AirwayModeDynamic,
 			ClusterAccess: true,
