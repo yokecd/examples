@@ -1,21 +1,17 @@
 # Dynamic-Mode
 
-This demo is meant to illustrate the power of dynamic mode airways.
+This demo illustrates the power of dynamic-mode airways.
 
-Dynamic mode airways allow your packages to react to changes to their submodules.
-In this way we are not bound to a single desired state, but can update the desired state of our package
-as side effects happen in the real world.
+Dynamic-mode airways enable your packages to respond to changes in their subresources dynamically.
+Instead of being constrained to a single desired state, they allow the desired state of your package to update as side effects occur in the real world.
 
-This demo will take an age old question in Kubernetes and solve it using dynamic airways:
+This demo addresses an age-old Kubernetes question using dynamic airways:
 
 _How do we restart a deployment when a secret changes?_
 
-The demo could have been an Airway that describes some Custom Type (Backend) that simply deploys a secret
-and deployment and updates deployment whenever the secret changes. But that would have been to direct,
-and perhaps does not feel like a real-world setup. Hence this demo will setup a in-cluster development hashicorp vault
-and use the external-secrets-operator to update our secrets which in turn updates our deployment.
+In theory, the demo could have simply involved an Airway that describes a custom resource (e.g., Backend) to deploy a secret and a deployment, then update the deployment whenever the secret changes. However, that approach might feel too direct and not representative of a real-world setup. Instead, this demo sets up an in-cluster development HashiCorp Vault and uses the external-secrets-operator to manage secrets. This, in turn, triggers updates to the deployment whenever the secrets change.
 
-Therefore, we redeploy our deployment everytime we update our secrets in vault.
+As a result, the deployment is redeployed every time the secrets in Vault are updated.
 
 Let's get started!
 
@@ -26,29 +22,32 @@ Let's get started!
 - Yoke CLI (latest recommended)
 - kind CLI (Kubernetes in Docker)
 
-## Run the demo
+## Run the Demo
 
-From the root of this repository run:
+From the root of this repository, run:
 
 ```bash
 ./demos/dynamic-mode/run.sh
 ```
 
-It will do the following:
+This script will perform the following steps:
 
-- kill and restart a Kind Cluster named "demo-dynamic-mode"
-- Build a setup wasm that embeds the vault and external-secrets-operator charts.
-- Run the setup as a yoke release.
-- Install the Air Traffic Controller using the latest version.
-- Create a port-forward to vault running in your cluster from the setup
-- Add a secret to vault.
-- Create an Airway for our example Backend type.
-- Create a Backend that uses the secret we defined in vault.
+1. Kill and restart a Kind Cluster named "demo-dynamic-mode."
+2. Build a setup WebAssembly (Wasm) that embeds the Vault and external-secrets-operator charts.
+3. Run the setup as a Yoke release.
+4. Install the Air Traffic Controller using the latest version.
+5. Create a port-forward to the Vault running in your cluster from the setup.
+6. Add a secret to Vault.
+7. Create an Airway for the example Backend type.
+8. Create a Backend instance that uses the secret defined in Vault.
 
-You can then inspect your cluster to notice that the deployment exists with a secret env var.
+Afterward, you can inspect your cluster to confirm that the deployment exists with a secret environment variable.
 
-If you update the vault secret the deployment redeploys!
+If you update the secret in Vault, the deployment will be redeployed!
+
+For example:
 
 ```bash
 VAULT_TOKEN=root VAULT_ADDR=http://localhost:8200 vault kv put secret/demo hello=goodbye
 ```
+
