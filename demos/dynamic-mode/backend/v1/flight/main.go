@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"time"
 
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -63,6 +64,12 @@ func run() error {
 			Name: backend.Name,
 		},
 		Spec: Spec{
+			RefreshInterval: func() *metav1.Duration {
+				if backend.Spec.SecretRefreshInternval > 0 {
+					return &metav1.Duration{Duration: time.Duration(backend.Spec.SecretRefreshInternval)}
+				}
+				return &metav1.Duration{Duration: 5 * time.Second}
+			}(),
 			SecretStoreRef: SecretStoreRef{
 				Name: "vault-backend",
 				Kind: "SecretStore",
