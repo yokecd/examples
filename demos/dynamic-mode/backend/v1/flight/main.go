@@ -101,7 +101,7 @@ func run() error {
 	secretHash := func() string {
 		hash := sha1.New()
 		for _, key := range slices.Sorted(maps.Keys(secret.Data)) {
-			hash.Sum(secret.Data[key])
+			hash.Write(secret.Data[key])
 		}
 		return hex.EncodeToString(hash.Sum(nil))
 	}()
