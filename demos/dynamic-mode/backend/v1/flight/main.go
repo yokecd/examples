@@ -6,8 +6,6 @@ import (
 	"io"
 	"os"
 
-	"github.com/external-secrets/external-secrets/apis/externalsecrets/v1beta1"
-
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -56,30 +54,29 @@ func run() error {
 		}(),
 	}
 
-	externalSecret := &v1beta1.ExternalSecret{
+	externalSecret := &ExternalSecret{
 		TypeMeta: metav1.TypeMeta{
-			APIVersion: v1beta1.SchemeGroupVersion.Identifier(),
+			APIVersion: "external-secrets.io/v1beta1",
 			Kind:       "ExternalSecret",
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name: backend.Name,
 		},
-		Spec: v1beta1.ExternalSecretSpec{
-			SecretStoreRef: v1beta1.SecretStoreRef{
+		Spec: Spec{
+			SecretStoreRef: SecretStoreRef{
 				Name: "vault-backend",
 				Kind: "SecretStore",
 			},
-			Target: v1beta1.ExternalSecretTarget{
+			Target: Target{
 				Name:           secret.Name,
-				CreationPolicy: v1beta1.CreatePolicyMerge,
-				DeletionPolicy: v1beta1.DeletionPolicyRetain,
+				CreationPolicy: "Merge",
 			},
-			Data: func() []v1beta1.ExternalSecretData {
-				var result []v1beta1.ExternalSecretData
+			Data: func() []Data {
+				var result []Data
 				for _, value := range backend.Spec.Secrets {
-					result = append(result, v1beta1.ExternalSecretData{
-						SecretKey: value.Key,
-						RemoteRef: v1beta1.ExternalSecretDataRemoteRef{
+					result = append(result, Data{
+						SecretKeyRef: value.Key,
+						RemoteRef: RemoteRef{
 							Key:      value.Path,
 							Property: value.Key,
 						},
