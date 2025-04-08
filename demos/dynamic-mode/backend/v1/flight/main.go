@@ -1,10 +1,14 @@
 package main
 
 import (
+	"crypto/sha1"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io"
+	"maps"
 	"os"
+	"slices"
 	"time"
 
 	appsv1 "k8s.io/api/apps/v1"
@@ -94,6 +98,18 @@ func run() error {
 		},
 	}
 
+	secretHash := func() string {
+		hash := sha1.New()
+		for _, key := range slices.Sorted(maps.Keys(secret.Data)) {
+			hash.Sum(secret.Data[key])
+		}
+		return hex.EncodeToString(hash.Sum(nil))
+	}()
+
+	labels := map[string]string{"secret-hash": secretHash}
+
+	maps.Copy(labels, selector)
+
 	deployment := &appsv1.Deployment{
 		TypeMeta: metav1.TypeMeta{
 			APIVersion: appsv1.SchemeGroupVersion.Identifier(),
@@ -107,7 +123,7 @@ func run() error {
 			Selector: &metav1.LabelSelector{MatchLabels: selector},
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
-					Labels: selector,
+					Labels: labels,
 				},
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{
