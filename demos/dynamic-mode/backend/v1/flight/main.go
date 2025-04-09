@@ -11,6 +11,7 @@ import (
 	"slices"
 	"time"
 
+	"github.com/yokecd/examples/demos/dynamic-mode/backend/v1/flight/eso"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -59,7 +60,7 @@ func run() error {
 		}(),
 	}
 
-	externalSecret := &ExternalSecret{
+	externalSecret := &eso.ExternalSecret{
 		TypeMeta: metav1.TypeMeta{
 			APIVersion: "external-secrets.io/v1beta1",
 			Kind:       "ExternalSecret",
@@ -67,27 +68,27 @@ func run() error {
 		ObjectMeta: metav1.ObjectMeta{
 			Name: backend.Name,
 		},
-		Spec: Spec{
+		Spec: eso.ExternalSecretSpec{
 			RefreshInterval: func() *metav1.Duration {
 				if backend.Spec.SecretRefreshInternval > 0 {
 					return &metav1.Duration{Duration: time.Duration(backend.Spec.SecretRefreshInternval)}
 				}
 				return &metav1.Duration{Duration: 5 * time.Second}
 			}(),
-			SecretStoreRef: SecretStoreRef{
+			SecretStoreRef: eso.ExternalSecretStoreRef{
 				Name: "vault-backend",
 				Kind: "SecretStore",
 			},
-			Target: Target{
+			Target: eso.ExternalSecretTarget{
 				Name:           secret.Name,
 				CreationPolicy: "Merge",
 			},
-			Data: func() []Data {
-				var result []Data
+			Data: func() []eso.ExternalSecretData {
+				var result []eso.ExternalSecretData
 				for _, value := range backend.Spec.Secrets {
-					result = append(result, Data{
+					result = append(result, eso.ExternalSecretData{
 						SecretKey: value.Key,
-						RemoteRef: RemoteRef{
+						RemoteRef: eso.RemoteRef{
 							Key:      value.Path,
 							Property: value.Key,
 						},

@@ -1,4 +1,4 @@
-package main
+package eso
 
 import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
@@ -10,27 +10,27 @@ import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 type ExternalSecret struct {
 	metav1.TypeMeta
 	metav1.ObjectMeta `json:"metadata"`
-	Spec              Spec `json:"spec"`
+	Spec              ExternalSecretSpec `json:"spec"`
 }
 
-type Spec struct {
-	RefreshInterval *metav1.Duration `json:"refreshInterval,omitzero"`
-	SecretStoreRef  SecretStoreRef   `json:"secretStoreRef"`
-	Target          Target           `json:"target"`
-	Data            []Data           `json:"data"`
+type ExternalSecretSpec struct {
+	RefreshInterval *metav1.Duration       `json:"refreshInterval,omitzero"`
+	SecretStoreRef  ExternalSecretStoreRef `json:"secretStoreRef"`
+	Target          ExternalSecretTarget   `json:"target"`
+	Data            []ExternalSecretData   `json:"data"`
 }
 
-type SecretStoreRef struct {
+type ExternalSecretStoreRef struct {
 	Name string `json:"name"`
 	Kind string `json:"kind"`
 }
 
-type Target struct {
+type ExternalSecretTarget struct {
 	Name           string `json:"name"`
 	CreationPolicy string `json:"creationPolicy"`
 }
 
-type Data struct {
+type ExternalSecretData struct {
 	SecretKey string    `json:"secretKey"`
 	RemoteRef RemoteRef `json:"remoteRef"`
 }
