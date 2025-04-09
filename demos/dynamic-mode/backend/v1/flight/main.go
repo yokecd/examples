@@ -11,7 +11,6 @@ import (
 	"slices"
 	"time"
 
-	"github.com/yokecd/examples/demos/dynamic-mode/backend/v1/flight/eso"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -21,6 +20,7 @@ import (
 	"github.com/yokecd/yoke/pkg/flight/wasi/k8s"
 
 	v1 "github.com/yokecd/examples/demos/dynamic-mode/backend/v1"
+	"github.com/yokecd/examples/demos/dynamic-mode/backend/v1/flight/eso"
 )
 
 func main() {
