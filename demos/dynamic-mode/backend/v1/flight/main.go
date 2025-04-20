@@ -70,8 +70,8 @@ func run() error {
 		},
 		Spec: eso.ExternalSecretSpec{
 			RefreshInterval: func() *metav1.Duration {
-				if backend.Spec.SecretRefreshInternval > 0 {
-					return &metav1.Duration{Duration: time.Duration(backend.Spec.SecretRefreshInternval)}
+				if backend.Spec.SecretRefreshInternval.Duration > 0 {
+					return &backend.Spec.SecretRefreshInternval
 				}
 				return &metav1.Duration{Duration: 5 * time.Second}
 			}(),

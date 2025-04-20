@@ -5,8 +5,6 @@ import (
 	"fmt"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
-	"github.com/yokecd/yoke/pkg/openapi"
 )
 
 const (
@@ -30,10 +28,10 @@ type Secrets map[string]struct {
 
 // Our Backend Specification
 type BackendSpec struct {
-	Image                  string           `json:"image"`
-	Replicas               int32            `json:"replicas"`
-	Secrets                Secrets          `json:"secrets,omitempty"`
-	SecretRefreshInternval openapi.Duration `json:"refreshInterval,omitzero"`
+	Image                  string          `json:"image"`
+	Replicas               int32           `json:"replicas"`
+	Secrets                Secrets         `json:"secrets,omitempty"`
+	SecretRefreshInternval metav1.Duration `json:"refreshInterval,omitzero"`
 }
 
 // Custom Marshalling Logic so that users do not need to explicity fill out the Kind and ApiVersion.
