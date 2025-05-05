@@ -1,4 +1,4 @@
-set -x
+set -eux
 
 CLUSTER=demo-dynamic-mode
 
@@ -24,7 +24,7 @@ vault kv put secret/demo hello=world
 # Create our airway. We could have compiled it to wasm first, but given that the flight was completely static
 # and did not depend on the release name or env, it is the same as just executing it and piping it to yoke.
 # All roads lead to Rome.
-go run ./demos/demo-dynamic-modede/airway | yoke takeoff -debug -wait 1m demo-airway
+go run ./demos/demo-dynamic-mode/airway | yoke takeoff -debug -wait 1m demo-airway
 
 # Create a Backend corresponding to the airway we just created.
 # Notice that we are mapping a secret into our deployment --
