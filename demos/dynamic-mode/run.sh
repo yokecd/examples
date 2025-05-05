@@ -6,7 +6,7 @@ CLUSTER=demo-dynamic-mode
 kind delete cluster --name=$CLUSTER && kind create cluster --name=$CLUSTER
 
 # Build and execute our setup -- install vault and external-secrets-operator.
-GOOS=wasip1 GOARCH=wasm go build -o ./demos/dynamic-mode/build-artifacts/secretp.wasm ./demos/dynamic-mode/setup
+GOOS=wasip1 GOARCH=wasm go build -o ./demos/dynamic-mode/build-artifacts/setup.wasm ./demos/dynamic-mode/setup
 yoke takeoff --debug --wait 5m demo ./demos/dynamic-mode/build-artifacts/setup.wasm
 
 # Install the AirTrafficController using its latest OCI image.
