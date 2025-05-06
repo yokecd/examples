@@ -1,6 +1,6 @@
 module github.com/yokecd/examples
 
-go 1.24.2
+go 1.24.3
 
 require (
 	github.com/external-secrets/external-secrets v0.16.1

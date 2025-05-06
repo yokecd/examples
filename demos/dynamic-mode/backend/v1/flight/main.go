@@ -11,6 +11,7 @@ import (
 	"slices"
 	"time"
 
+	eso "github.com/external-secrets/external-secrets/apis/externalsecrets/v1beta1"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -20,7 +21,6 @@ import (
 	"github.com/yokecd/yoke/pkg/flight/wasi/k8s"
 
 	v1 "github.com/yokecd/examples/demos/dynamic-mode/backend/v1"
-	"github.com/yokecd/examples/demos/dynamic-mode/backend/v1/flight/eso"
 )
 
 func main() {
@@ -75,7 +75,7 @@ func run() error {
 				}
 				return &metav1.Duration{Duration: 5 * time.Second}
 			}(),
-			SecretStoreRef: eso.ExternalSecretStoreRef{
+			SecretStoreRef: eso.SecretStoreRef{
 				Name: "vault-backend",
 				Kind: "SecretStore",
 			},
@@ -88,7 +88,7 @@ func run() error {
 				for _, value := range backend.Spec.Secrets {
 					result = append(result, eso.ExternalSecretData{
 						SecretKey: value.Key,
-						RemoteRef: eso.RemoteRef{
+						RemoteRef: eso.ExternalSecretDataRemoteRef{
 							Key:      value.Path,
 							Property: value.Key,
 						},
