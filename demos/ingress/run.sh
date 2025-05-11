@@ -3,17 +3,17 @@ set -eux -o pipefail
 # Delete and recreate a kind cluster called demo-ingress.
 # This cluster contains a host-port mapping so that we can send requests to the cluster over localhost.
 kind delete cluster --name=demo-ingress && kind create cluster --name=demo-ingress --config=- <<EOF
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-nodes:
-- role: control-plane
-  extraPortMappings:
-  - containerPort: 80
-    hostPort: 80
-    protocol: TCP
-  - containerPort: 443
-    hostPort: 443
-    protocol: TCP
+  kind: Cluster
+  apiVersion: kind.x-k8s.io/v1alpha4
+  nodes:
+  - role: control-plane
+    extraPortMappings:
+    - containerPort: 80
+      hostPort: 80
+      protocol: TCP
+    - containerPort: 443
+      hostPort: 443
+      protocol: TCP
 EOF
 
 # Get the nginx ingress deployment from kind.sigs.k8s.io examples.
@@ -39,6 +39,6 @@ curl https://kind.sigs.k8s.io/examples/ingress/deploy-ingress-nginx.yaml |
 # Create our wasm module using our flight implementation.
 GOOS=wasip1 GOARCH=wasm go build -o ./demo.wasm ./demos/ingress/flight
 
-yoke apply foo ./demo.wasm <<EOF
-pathPrefix: /foo
+yoke apply -wait 2m foo ./demo.wasm <<EOF
+  pathPrefix: /foo
 EOF

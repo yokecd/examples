@@ -69,11 +69,6 @@ func run() error {
 							Name:    "main",
 							Image:   cfg.Image,
 							Command: cfg.Command,
-							Ports: []corev1.ContainerPort{
-								{
-									ContainerPort: 80,
-								},
-							},
 						},
 					},
 				},
@@ -102,28 +97,34 @@ func run() error {
 		},
 	}
 
-	ingress := &networkingv1.Ingress{
-		TypeMeta: metav1.TypeMeta{
-			Kind:       "Ingress",
-			APIVersion: networkingv1.SchemeGroupVersion.Identifier(),
-		},
-		ObjectMeta: metav1.ObjectMeta{
-			Name: cfg.Name,
-		},
-		Spec: networkingv1.IngressSpec{
-			Rules: []networkingv1.IngressRule{
-				{
-					IngressRuleValue: networkingv1.IngressRuleValue{
-						HTTP: &networkingv1.HTTPIngressRuleValue{
-							Paths: []networkingv1.HTTPIngressPath{
-								{
-									PathType: ptr.To(networkingv1.PathTypePrefix),
-									Path:     cfg.PathPrefix,
-									Backend: networkingv1.IngressBackend{
-										Service: &networkingv1.IngressServiceBackend{
-											Name: svc.Name,
-											Port: networkingv1.ServiceBackendPort{
-												Name: "http",
+	ingress := func() *networkingv1.Ingress {
+		if cfg.PathPrefix == "" {
+			return nil
+		}
+
+		return &networkingv1.Ingress{
+			TypeMeta: metav1.TypeMeta{
+				Kind:       "Ingress",
+				APIVersion: networkingv1.SchemeGroupVersion.Identifier(),
+			},
+			ObjectMeta: metav1.ObjectMeta{
+				Name: cfg.Name,
+			},
+			Spec: networkingv1.IngressSpec{
+				Rules: []networkingv1.IngressRule{
+					{
+						IngressRuleValue: networkingv1.IngressRuleValue{
+							HTTP: &networkingv1.HTTPIngressRuleValue{
+								Paths: []networkingv1.HTTPIngressPath{
+									{
+										PathType: ptr.To(networkingv1.PathTypePrefix),
+										Path:     cfg.PathPrefix,
+										Backend: networkingv1.IngressBackend{
+											Service: &networkingv1.IngressServiceBackend{
+												Name: svc.Name,
+												Port: networkingv1.ServiceBackendPort{
+													Name: "http",
+												},
 											},
 										},
 									},
@@ -133,8 +134,8 @@ func run() error {
 					},
 				},
 			},
-		},
-	}
+		}
+	}()
 
 	return json.NewEncoder(os.Stdout).Encode(flight.Resources{
 		deployment,
