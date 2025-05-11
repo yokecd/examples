@@ -1,0 +1,144 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"io"
+	"os"
+
+	"github.com/yokecd/yoke/pkg/flight"
+
+	appsv1 "k8s.io/api/apps/v1"
+	corev1 "k8s.io/api/core/v1"
+	networkingv1 "k8s.io/api/networking/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/util/intstr"
+	"k8s.io/apimachinery/pkg/util/yaml"
+	"k8s.io/utils/ptr"
+)
+
+func main() {
+	if err := run(); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+}
+
+type Config struct {
+	Name       string   `json:"-"`
+	Image      string   `json:"image"`
+	Command    []string `json:"command"`
+	PathPrefix string   `json:"pathPrefix"`
+}
+
+func run() error {
+	cfg := Config{
+		Name:  flight.Release(),
+		Image: "ealen/echo-server:latest",
+	}
+
+	if err := yaml.NewYAMLToJSONDecoder(os.Stdin).Decode(&cfg); err != nil && err != io.EOF {
+		return fmt.Errorf("failed to unmarshal input into expected config: %w", err)
+	}
+
+	labels := map[string]string{
+		"app.kubernetes.io/name": cfg.Name,
+	}
+
+	deployment := &appsv1.Deployment{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "Deployment",
+			APIVersion: appsv1.SchemeGroupVersion.Identifier(),
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name: cfg.Name,
+		},
+		Spec: appsv1.DeploymentSpec{
+			Replicas: ptr.To[int32](2),
+			Selector: &metav1.LabelSelector{
+				MatchLabels: labels,
+			},
+			Template: corev1.PodTemplateSpec{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:   cfg.Name,
+					Labels: labels,
+				},
+				Spec: corev1.PodSpec{
+					Containers: []corev1.Container{
+						{
+							Name:    "main",
+							Image:   cfg.Image,
+							Command: cfg.Command,
+							Ports: []corev1.ContainerPort{
+								{
+									ContainerPort: 80,
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	svc := &corev1.Service{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "Service",
+			APIVersion: corev1.SchemeGroupVersion.Identifier(),
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name: cfg.Name,
+		},
+		Spec: corev1.ServiceSpec{
+			Selector: labels,
+			Ports: []corev1.ServicePort{
+				{
+					Name:       "http",
+					Protocol:   corev1.ProtocolTCP,
+					Port:       80,
+					TargetPort: intstr.FromInt(80),
+				},
+			},
+		},
+	}
+
+	ingress := &networkingv1.Ingress{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "Ingress",
+			APIVersion: networkingv1.SchemeGroupVersion.Identifier(),
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name: cfg.Name,
+		},
+		Spec: networkingv1.IngressSpec{
+			Rules: []networkingv1.IngressRule{
+				{
+					IngressRuleValue: networkingv1.IngressRuleValue{
+						HTTP: &networkingv1.HTTPIngressRuleValue{
+							Paths: []networkingv1.HTTPIngressPath{
+								{
+									PathType: ptr.To(networkingv1.PathTypePrefix),
+									Path:     cfg.PathPrefix,
+									Backend: networkingv1.IngressBackend{
+										Service: &networkingv1.IngressServiceBackend{
+											Name: svc.Name,
+											Port: networkingv1.ServiceBackendPort{
+												Name: "http",
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	return json.NewEncoder(os.Stdout).Encode(flight.Resources{
+		deployment,
+		svc,
+		ingress,
+	})
+}
