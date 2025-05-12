@@ -5,7 +5,7 @@ go 1.24.3
 require (
 	github.com/external-secrets/external-secrets v0.16.1
 	github.com/stretchr/testify v1.10.0
-	github.com/yokecd/yoke v0.12.5
+	github.com/yokecd/yoke v0.12.6
 	k8s.io/api v0.33.0
 	k8s.io/apiextensions-apiserver v0.33.0
 	k8s.io/apimachinery v0.33.0
@@ -23,7 +23,7 @@ require (
 	github.com/cyphar/filepath-securejoin v0.4.1 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/davidmdm/ansi v0.0.6 // indirect
-	github.com/davidmdm/x/xerr v0.0.3 // indirect
+	github.com/davidmdm/x/xerr v0.0.4 // indirect
 	github.com/emicklei/go-restful/v3 v3.12.2 // indirect
 	github.com/evanphx/json-patch/v5 v5.9.11 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
