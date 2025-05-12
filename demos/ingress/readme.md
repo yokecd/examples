@@ -21,3 +21,9 @@ To run the demo, execute the `run.sh` script found in the directory of the demo.
 Read the instructions printed via the script to build and execute the Flight.
 
 Feel free to play around with the flight implementation and see how powerful yoke can be for yourself!
+
+## Requisite Dependencies
+
+- Go Toolchain
+- yoke
+- kind
