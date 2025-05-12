@@ -36,9 +36,21 @@ curl https://kind.sigs.k8s.io/examples/ingress/deploy-ingress-nginx.yaml |
     -wait 5m \
     ingress-nginx
 
+cat <<EEOF
+
+---
+
+# You are setup with a new Kind cluster and ingress-nginx controller.
+# To deploy a service run the next few lines!
+
 # Create our wasm module using our flight implementation.
 GOOS=wasip1 GOARCH=wasm go build -o ./demo.wasm ./demos/ingress/flight
 
 yoke apply -wait 2m foo ./demo.wasm <<EOF
+  image: ealen/echo-server:latest
   pathPrefix: /foo
+  env:
+    ENABLE__REQUEST: false
+    ENABLE__ENVIRONMENT: false
 EOF
+EEOF

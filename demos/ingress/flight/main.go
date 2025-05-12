@@ -25,10 +25,11 @@ func main() {
 }
 
 type Config struct {
-	Name       string   `json:"-"`
-	Image      string   `json:"image"`
-	Command    []string `json:"command"`
-	PathPrefix string   `json:"pathPrefix"`
+	Name       string            `json:"-"`
+	Image      string            `json:"image"`
+	Command    []string          `json:"command"`
+	PathPrefix string            `json:"pathPrefix"`
+	Env        map[string]string `json:"env"`
 }
 
 func run() error {
@@ -69,6 +70,16 @@ func run() error {
 							Name:    "main",
 							Image:   cfg.Image,
 							Command: cfg.Command,
+							Env: func() []corev1.EnvVar {
+								var result []corev1.EnvVar
+								for key, value := range cfg.Env {
+									result = append(result, corev1.EnvVar{
+										Name:  key,
+										Value: value,
+									})
+								}
+								return result
+							}(),
 						},
 					},
 				},
