@@ -1,12 +1,16 @@
-set -eux
+set -eux -o pipefail
 
 CLUSTER=demo-dynamic-mode
 
 # Create a temporary demo cluster
 kind delete cluster --name=$CLUSTER && kind create cluster --name=$CLUSTER
 
-# Build and execute our setup -- install vault and external-secrets-operator.
+# Build and execute our setup
+
+# Compile vault and external-secrets-operator flight to a WebAssembly Module.
 GOOS=wasip1 GOARCH=wasm go build -o ./demos/dynamic-mode/build-artifacts/setup.wasm ./demos/dynamic-mode/setup
+
+# Deploy vault and external-secrets-operator using local flight module.
 yoke takeoff --debug --wait 5m demo ./demos/dynamic-mode/build-artifacts/setup.wasm
 
 # Install the AirTrafficController using its latest OCI image.
@@ -33,7 +37,7 @@ kubectl apply -f - <<EOF
 apiVersion: examples.com/v1
 kind: Backend
 metadata:
-  name: demo-backend
+  name: nginx
 spec:
   image: nginx:latest
   replicas: 2
@@ -43,6 +47,11 @@ spec:
       key: hello
 EOF
 
+cat <<EOF
+
+---
+
 # Run this commented command at your leisure to update the deployment by changing the secret in vault.
 
-# VAULT_ADDR=http://localhost:8200 VAULT_TOKEN=root vault kv put secret/demo hello=fromtheotherside
+VAULT_ADDR=http://localhost:8200 VAULT_TOKEN=root vault kv put secret/demo hello=fromtheotherside
+EOF
