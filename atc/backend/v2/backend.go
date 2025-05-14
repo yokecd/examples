@@ -13,8 +13,8 @@ const (
 )
 
 type Backend struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+	metav1.TypeMeta
+	metav1.ObjectMeta `json:"metadata"`
 	Spec              BackendSpec `json:"spec"`
 }
 
@@ -27,7 +27,7 @@ type BackendSpec struct {
 	Img      string `json:"img"`
 	Replicas int32  `json:"replicas"`
 	// Meta differs from the previous version which only accepted a Labels field. Now it is within meta.
-	Meta        Meta `json:"meta,omitempty"`
+	Meta        Meta `json:"meta,omitzero"`
 	NodePort    int  `json:"nodePort,omitempty"`
 	ServicePort int  `json:"port,omitempty"`
 }
