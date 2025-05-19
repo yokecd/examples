@@ -63,7 +63,7 @@ func run() error {
 
 	externalSecret := &esov1.ExternalSecret{
 		TypeMeta: metav1.TypeMeta{
-			APIVersion: "external-secrets.io/v1beta1",
+			APIVersion: esov1.SchemeGroupVersion.Identifier(),
 			Kind:       "ExternalSecret",
 		},
 		ObjectMeta: metav1.ObjectMeta{
