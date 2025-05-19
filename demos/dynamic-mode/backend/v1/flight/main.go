@@ -11,7 +11,7 @@ import (
 	"slices"
 	"time"
 
-	eso "github.com/external-secrets/external-secrets/apis/externalsecrets/v1beta1"
+	esov1 "github.com/external-secrets/external-secrets/apis/externalsecrets/v1"
 
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -61,7 +61,7 @@ func run() error {
 		}(),
 	}
 
-	externalSecret := &eso.ExternalSecret{
+	externalSecret := &esov1.ExternalSecret{
 		TypeMeta: metav1.TypeMeta{
 			APIVersion: "external-secrets.io/v1beta1",
 			Kind:       "ExternalSecret",
@@ -69,27 +69,27 @@ func run() error {
 		ObjectMeta: metav1.ObjectMeta{
 			Name: backend.Name,
 		},
-		Spec: eso.ExternalSecretSpec{
+		Spec: esov1.ExternalSecretSpec{
 			RefreshInterval: func() *metav1.Duration {
 				if backend.Spec.SecretRefreshInternval.Duration > 0 {
 					return &backend.Spec.SecretRefreshInternval
 				}
 				return &metav1.Duration{Duration: 5 * time.Second}
 			}(),
-			SecretStoreRef: eso.SecretStoreRef{
+			SecretStoreRef: esov1.SecretStoreRef{
 				Name: "vault-backend",
 				Kind: "SecretStore",
 			},
-			Target: eso.ExternalSecretTarget{
+			Target: esov1.ExternalSecretTarget{
 				Name:           secret.Name,
 				CreationPolicy: "Merge",
 			},
-			Data: func() []eso.ExternalSecretData {
-				var result []eso.ExternalSecretData
+			Data: func() []esov1.ExternalSecretData {
+				var result []esov1.ExternalSecretData
 				for _, value := range backend.Spec.Secrets {
-					result = append(result, eso.ExternalSecretData{
+					result = append(result, esov1.ExternalSecretData{
 						SecretKey: value.Key,
-						RemoteRef: eso.ExternalSecretDataRemoteRef{
+						RemoteRef: esov1.ExternalSecretDataRemoteRef{
 							Key:      value.Path,
 							Property: value.Key,
 						},

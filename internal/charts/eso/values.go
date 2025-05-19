@@ -4,7 +4,7 @@ package eso
 
 type Values struct {
 	// Affinity corresponds to the JSON schema field "affinity".
-	Affinity ValuesAffinity `json:"affinity,omitempty" yaml:"affinity,omitempty" mapstructure:"affinity,omitempty"`
+	Affinity map[string]interface{} `json:"affinity,omitempty" yaml:"affinity,omitempty" mapstructure:"affinity,omitempty"`
 
 	// BitwardenSdkServer corresponds to the JSON schema field "bitwarden-sdk-server".
 	BitwardenSdkServer *ValuesBitwardenSdkServer `json:"bitwarden-sdk-server,omitempty" yaml:"bitwarden-sdk-server,omitempty" mapstructure:"bitwarden-sdk-server,omitempty"`
@@ -13,7 +13,7 @@ type Values struct {
 	CertController *ValuesCertController `json:"certController,omitempty" yaml:"certController,omitempty" mapstructure:"certController,omitempty"`
 
 	// CommonLabels corresponds to the JSON schema field "commonLabels".
-	CommonLabels ValuesCommonLabels `json:"commonLabels,omitempty" yaml:"commonLabels,omitempty" mapstructure:"commonLabels,omitempty"`
+	CommonLabels map[string]interface{} `json:"commonLabels,omitempty" yaml:"commonLabels,omitempty" mapstructure:"commonLabels,omitempty"`
 
 	// Concurrent corresponds to the JSON schema field "concurrent".
 	Concurrent *int `json:"concurrent,omitempty" yaml:"concurrent,omitempty" mapstructure:"concurrent,omitempty"`
@@ -29,10 +29,10 @@ type Values struct {
 
 	// DeploymentAnnotations corresponds to the JSON schema field
 	// "deploymentAnnotations".
-	DeploymentAnnotations ValuesDeploymentAnnotations `json:"deploymentAnnotations,omitempty" yaml:"deploymentAnnotations,omitempty" mapstructure:"deploymentAnnotations,omitempty"`
+	DeploymentAnnotations map[string]interface{} `json:"deploymentAnnotations,omitempty" yaml:"deploymentAnnotations,omitempty" mapstructure:"deploymentAnnotations,omitempty"`
 
 	// DnsConfig corresponds to the JSON schema field "dnsConfig".
-	DnsConfig ValuesDnsConfig `json:"dnsConfig,omitempty" yaml:"dnsConfig,omitempty" mapstructure:"dnsConfig,omitempty"`
+	DnsConfig map[string]interface{} `json:"dnsConfig,omitempty" yaml:"dnsConfig,omitempty" mapstructure:"dnsConfig,omitempty"`
 
 	// DnsPolicy corresponds to the JSON schema field "dnsPolicy".
 	DnsPolicy *string `json:"dnsPolicy,omitempty" yaml:"dnsPolicy,omitempty" mapstructure:"dnsPolicy,omitempty"`
@@ -42,7 +42,7 @@ type Values struct {
 	ExtendedMetricLabels *bool `json:"extendedMetricLabels,omitempty" yaml:"extendedMetricLabels,omitempty" mapstructure:"extendedMetricLabels,omitempty"`
 
 	// ExtraArgs corresponds to the JSON schema field "extraArgs".
-	ExtraArgs ValuesExtraArgs `json:"extraArgs,omitempty" yaml:"extraArgs,omitempty" mapstructure:"extraArgs,omitempty"`
+	ExtraArgs map[string]interface{} `json:"extraArgs,omitempty" yaml:"extraArgs,omitempty" mapstructure:"extraArgs,omitempty"`
 
 	// ExtraContainers corresponds to the JSON schema field "extraContainers".
 	ExtraContainers []interface{} `json:"extraContainers,omitempty" yaml:"extraContainers,omitempty" mapstructure:"extraContainers,omitempty"`
@@ -64,6 +64,9 @@ type Values struct {
 
 	// Global corresponds to the JSON schema field "global".
 	Global *ValuesGlobal `json:"global,omitempty" yaml:"global,omitempty" mapstructure:"global,omitempty"`
+
+	// GrafanaDashboard corresponds to the JSON schema field "grafanaDashboard".
+	GrafanaDashboard *ValuesGrafanaDashboard `json:"grafanaDashboard,omitempty" yaml:"grafanaDashboard,omitempty" mapstructure:"grafanaDashboard,omitempty"`
 
 	// HostNetwork corresponds to the JSON schema field "hostNetwork".
 	HostNetwork *bool `json:"hostNetwork,omitempty" yaml:"hostNetwork,omitempty" mapstructure:"hostNetwork,omitempty"`
@@ -93,25 +96,25 @@ type Values struct {
 	NamespaceOverride *string `json:"namespaceOverride,omitempty" yaml:"namespaceOverride,omitempty" mapstructure:"namespaceOverride,omitempty"`
 
 	// NodeSelector corresponds to the JSON schema field "nodeSelector".
-	NodeSelector ValuesNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
+	NodeSelector map[string]interface{} `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
 	// OpenshiftFinalizers corresponds to the JSON schema field "openshiftFinalizers".
 	OpenshiftFinalizers *bool `json:"openshiftFinalizers,omitempty" yaml:"openshiftFinalizers,omitempty" mapstructure:"openshiftFinalizers,omitempty"`
 
 	// PodAnnotations corresponds to the JSON schema field "podAnnotations".
-	PodAnnotations ValuesPodAnnotations `json:"podAnnotations,omitempty" yaml:"podAnnotations,omitempty" mapstructure:"podAnnotations,omitempty"`
+	PodAnnotations map[string]interface{} `json:"podAnnotations,omitempty" yaml:"podAnnotations,omitempty" mapstructure:"podAnnotations,omitempty"`
 
 	// PodDisruptionBudget corresponds to the JSON schema field "podDisruptionBudget".
 	PodDisruptionBudget *ValuesPodDisruptionBudget `json:"podDisruptionBudget,omitempty" yaml:"podDisruptionBudget,omitempty" mapstructure:"podDisruptionBudget,omitempty"`
 
 	// PodLabels corresponds to the JSON schema field "podLabels".
-	PodLabels ValuesPodLabels `json:"podLabels,omitempty" yaml:"podLabels,omitempty" mapstructure:"podLabels,omitempty"`
+	PodLabels map[string]interface{} `json:"podLabels,omitempty" yaml:"podLabels,omitempty" mapstructure:"podLabels,omitempty"`
 
 	// PodSecurityContext corresponds to the JSON schema field "podSecurityContext".
 	PodSecurityContext *ValuesPodSecurityContext `json:"podSecurityContext,omitempty" yaml:"podSecurityContext,omitempty" mapstructure:"podSecurityContext,omitempty"`
 
 	// PodSpecExtra corresponds to the JSON schema field "podSpecExtra".
-	PodSpecExtra ValuesPodSpecExtra `json:"podSpecExtra,omitempty" yaml:"podSpecExtra,omitempty" mapstructure:"podSpecExtra,omitempty"`
+	PodSpecExtra map[string]interface{} `json:"podSpecExtra,omitempty" yaml:"podSpecExtra,omitempty" mapstructure:"podSpecExtra,omitempty"`
 
 	// PriorityClassName corresponds to the JSON schema field "priorityClassName".
 	PriorityClassName *string `json:"priorityClassName,omitempty" yaml:"priorityClassName,omitempty" mapstructure:"priorityClassName,omitempty"`
@@ -137,7 +140,7 @@ type Values struct {
 	ReplicaCount *int `json:"replicaCount,omitempty" yaml:"replicaCount,omitempty" mapstructure:"replicaCount,omitempty"`
 
 	// Resources corresponds to the JSON schema field "resources".
-	Resources ValuesResources `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
+	Resources map[string]interface{} `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
 
 	// RevisionHistoryLimit corresponds to the JSON schema field
 	// "revisionHistoryLimit".
@@ -172,8 +175,6 @@ type Values struct {
 	Webhook *ValuesWebhook `json:"webhook,omitempty" yaml:"webhook,omitempty" mapstructure:"webhook,omitempty"`
 }
 
-type ValuesAffinity map[string]interface{}
-
 type ValuesBitwardenSdkServer struct {
 	// Enabled corresponds to the JSON schema field "enabled".
 	Enabled *bool `json:"enabled,omitempty" yaml:"enabled,omitempty" mapstructure:"enabled,omitempty"`
@@ -181,17 +182,17 @@ type ValuesBitwardenSdkServer struct {
 
 type ValuesCertController struct {
 	// Affinity corresponds to the JSON schema field "affinity".
-	Affinity ValuesCertControllerAffinity `json:"affinity,omitempty" yaml:"affinity,omitempty" mapstructure:"affinity,omitempty"`
+	Affinity map[string]interface{} `json:"affinity,omitempty" yaml:"affinity,omitempty" mapstructure:"affinity,omitempty"`
 
 	// Create corresponds to the JSON schema field "create".
 	Create *bool `json:"create,omitempty" yaml:"create,omitempty" mapstructure:"create,omitempty"`
 
 	// DeploymentAnnotations corresponds to the JSON schema field
 	// "deploymentAnnotations".
-	DeploymentAnnotations ValuesCertControllerDeploymentAnnotations `json:"deploymentAnnotations,omitempty" yaml:"deploymentAnnotations,omitempty" mapstructure:"deploymentAnnotations,omitempty"`
+	DeploymentAnnotations map[string]interface{} `json:"deploymentAnnotations,omitempty" yaml:"deploymentAnnotations,omitempty" mapstructure:"deploymentAnnotations,omitempty"`
 
 	// ExtraArgs corresponds to the JSON schema field "extraArgs".
-	ExtraArgs ValuesCertControllerExtraArgs `json:"extraArgs,omitempty" yaml:"extraArgs,omitempty" mapstructure:"extraArgs,omitempty"`
+	ExtraArgs map[string]interface{} `json:"extraArgs,omitempty" yaml:"extraArgs,omitempty" mapstructure:"extraArgs,omitempty"`
 
 	// ExtraEnv corresponds to the JSON schema field "extraEnv".
 	ExtraEnv []interface{} `json:"extraEnv,omitempty" yaml:"extraEnv,omitempty" mapstructure:"extraEnv,omitempty"`
@@ -224,16 +225,16 @@ type ValuesCertController struct {
 	NameOverride *string `json:"nameOverride,omitempty" yaml:"nameOverride,omitempty" mapstructure:"nameOverride,omitempty"`
 
 	// NodeSelector corresponds to the JSON schema field "nodeSelector".
-	NodeSelector ValuesCertControllerNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
+	NodeSelector map[string]interface{} `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
 	// PodAnnotations corresponds to the JSON schema field "podAnnotations".
-	PodAnnotations ValuesCertControllerPodAnnotations `json:"podAnnotations,omitempty" yaml:"podAnnotations,omitempty" mapstructure:"podAnnotations,omitempty"`
+	PodAnnotations map[string]interface{} `json:"podAnnotations,omitempty" yaml:"podAnnotations,omitempty" mapstructure:"podAnnotations,omitempty"`
 
 	// PodDisruptionBudget corresponds to the JSON schema field "podDisruptionBudget".
 	PodDisruptionBudget *ValuesCertControllerPodDisruptionBudget `json:"podDisruptionBudget,omitempty" yaml:"podDisruptionBudget,omitempty" mapstructure:"podDisruptionBudget,omitempty"`
 
 	// PodLabels corresponds to the JSON schema field "podLabels".
-	PodLabels ValuesCertControllerPodLabels `json:"podLabels,omitempty" yaml:"podLabels,omitempty" mapstructure:"podLabels,omitempty"`
+	PodLabels map[string]interface{} `json:"podLabels,omitempty" yaml:"podLabels,omitempty" mapstructure:"podLabels,omitempty"`
 
 	// PodSecurityContext corresponds to the JSON schema field "podSecurityContext".
 	PodSecurityContext *ValuesCertControllerPodSecurityContext `json:"podSecurityContext,omitempty" yaml:"podSecurityContext,omitempty" mapstructure:"podSecurityContext,omitempty"`
@@ -254,7 +255,7 @@ type ValuesCertController struct {
 	RequeueInterval *string `json:"requeueInterval,omitempty" yaml:"requeueInterval,omitempty" mapstructure:"requeueInterval,omitempty"`
 
 	// Resources corresponds to the JSON schema field "resources".
-	Resources ValuesCertControllerResources `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
+	Resources map[string]interface{} `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
 
 	// RevisionHistoryLimit corresponds to the JSON schema field
 	// "revisionHistoryLimit".
@@ -273,12 +274,6 @@ type ValuesCertController struct {
 	// "topologySpreadConstraints".
 	TopologySpreadConstraints []interface{} `json:"topologySpreadConstraints,omitempty" yaml:"topologySpreadConstraints,omitempty" mapstructure:"topologySpreadConstraints,omitempty"`
 }
-
-type ValuesCertControllerAffinity map[string]interface{}
-
-type ValuesCertControllerDeploymentAnnotations map[string]interface{}
-
-type ValuesCertControllerExtraArgs map[string]interface{}
 
 type ValuesCertControllerImage struct {
 	// Flavour corresponds to the JSON schema field "flavour".
@@ -317,7 +312,7 @@ type ValuesCertControllerMetricsListen struct {
 
 type ValuesCertControllerMetricsService struct {
 	// Annotations corresponds to the JSON schema field "annotations".
-	Annotations ValuesCertControllerMetricsServiceAnnotations `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations map[string]interface{} `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// Enabled corresponds to the JSON schema field "enabled".
 	Enabled *bool `json:"enabled,omitempty" yaml:"enabled,omitempty" mapstructure:"enabled,omitempty"`
@@ -326,12 +321,6 @@ type ValuesCertControllerMetricsService struct {
 	Port *int `json:"port,omitempty" yaml:"port,omitempty" mapstructure:"port,omitempty"`
 }
 
-type ValuesCertControllerMetricsServiceAnnotations map[string]interface{}
-
-type ValuesCertControllerNodeSelector map[string]interface{}
-
-type ValuesCertControllerPodAnnotations map[string]interface{}
-
 type ValuesCertControllerPodDisruptionBudget struct {
 	// Enabled corresponds to the JSON schema field "enabled".
 	Enabled *bool `json:"enabled,omitempty" yaml:"enabled,omitempty" mapstructure:"enabled,omitempty"`
@@ -339,8 +328,6 @@ type ValuesCertControllerPodDisruptionBudget struct {
 	// MinAvailable corresponds to the JSON schema field "minAvailable".
 	MinAvailable *int `json:"minAvailable,omitempty" yaml:"minAvailable,omitempty" mapstructure:"minAvailable,omitempty"`
 }
-
-type ValuesCertControllerPodLabels map[string]interface{}
 
 type ValuesCertControllerPodSecurityContext struct {
 	// Enabled corresponds to the JSON schema field "enabled".
@@ -359,8 +346,6 @@ type ValuesCertControllerReadinessProbe struct {
 	// Port corresponds to the JSON schema field "port".
 	Port *int `json:"port,omitempty" yaml:"port,omitempty" mapstructure:"port,omitempty"`
 }
-
-type ValuesCertControllerResources map[string]interface{}
 
 type ValuesCertControllerSecurityContext struct {
 	// AllowPrivilegeEscalation corresponds to the JSON schema field
@@ -399,7 +384,7 @@ type ValuesCertControllerSecurityContextSeccompProfile struct {
 
 type ValuesCertControllerServiceAccount struct {
 	// Annotations corresponds to the JSON schema field "annotations".
-	Annotations ValuesCertControllerServiceAccountAnnotations `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations map[string]interface{} `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// Automount corresponds to the JSON schema field "automount".
 	Automount *bool `json:"automount,omitempty" yaml:"automount,omitempty" mapstructure:"automount,omitempty"`
@@ -408,21 +393,15 @@ type ValuesCertControllerServiceAccount struct {
 	Create *bool `json:"create,omitempty" yaml:"create,omitempty" mapstructure:"create,omitempty"`
 
 	// ExtraLabels corresponds to the JSON schema field "extraLabels".
-	ExtraLabels ValuesCertControllerServiceAccountExtraLabels `json:"extraLabels,omitempty" yaml:"extraLabels,omitempty" mapstructure:"extraLabels,omitempty"`
+	ExtraLabels map[string]interface{} `json:"extraLabels,omitempty" yaml:"extraLabels,omitempty" mapstructure:"extraLabels,omitempty"`
 
 	// Name corresponds to the JSON schema field "name".
 	Name *string `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
 }
 
-type ValuesCertControllerServiceAccountAnnotations map[string]interface{}
-
-type ValuesCertControllerServiceAccountExtraLabels map[string]interface{}
-
-type ValuesCommonLabels map[string]interface{}
-
 type ValuesCrds struct {
 	// Annotations corresponds to the JSON schema field "annotations".
-	Annotations ValuesCrdsAnnotations `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations map[string]interface{} `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// Conversion corresponds to the JSON schema field "conversion".
 	Conversion *ValuesCrdsConversion `json:"conversion,omitempty" yaml:"conversion,omitempty" mapstructure:"conversion,omitempty"`
@@ -447,28 +426,20 @@ type ValuesCrds struct {
 	CreatePushSecret *bool `json:"createPushSecret,omitempty" yaml:"createPushSecret,omitempty" mapstructure:"createPushSecret,omitempty"`
 }
 
-type ValuesCrdsAnnotations map[string]interface{}
-
 type ValuesCrdsConversion struct {
 	// Enabled corresponds to the JSON schema field "enabled".
 	Enabled *bool `json:"enabled,omitempty" yaml:"enabled,omitempty" mapstructure:"enabled,omitempty"`
 }
 
-type ValuesDeploymentAnnotations map[string]interface{}
-
-type ValuesDnsConfig map[string]interface{}
-
-type ValuesExtraArgs map[string]interface{}
-
 type ValuesGlobal struct {
 	// Affinity corresponds to the JSON schema field "affinity".
-	Affinity ValuesGlobalAffinity `json:"affinity,omitempty" yaml:"affinity,omitempty" mapstructure:"affinity,omitempty"`
+	Affinity map[string]interface{} `json:"affinity,omitempty" yaml:"affinity,omitempty" mapstructure:"affinity,omitempty"`
 
 	// Compatibility corresponds to the JSON schema field "compatibility".
 	Compatibility *ValuesGlobalCompatibility `json:"compatibility,omitempty" yaml:"compatibility,omitempty" mapstructure:"compatibility,omitempty"`
 
 	// NodeSelector corresponds to the JSON schema field "nodeSelector".
-	NodeSelector ValuesGlobalNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
+	NodeSelector map[string]interface{} `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
 	// Tolerations corresponds to the JSON schema field "tolerations".
 	Tolerations []interface{} `json:"tolerations,omitempty" yaml:"tolerations,omitempty" mapstructure:"tolerations,omitempty"`
@@ -477,8 +448,6 @@ type ValuesGlobal struct {
 	// "topologySpreadConstraints".
 	TopologySpreadConstraints []interface{} `json:"topologySpreadConstraints,omitempty" yaml:"topologySpreadConstraints,omitempty" mapstructure:"topologySpreadConstraints,omitempty"`
 }
-
-type ValuesGlobalAffinity map[string]interface{}
 
 type ValuesGlobalCompatibility struct {
 	// Openshift corresponds to the JSON schema field "openshift".
@@ -491,7 +460,19 @@ type ValuesGlobalCompatibilityOpenshift struct {
 	AdaptSecurityContext *string `json:"adaptSecurityContext,omitempty" yaml:"adaptSecurityContext,omitempty" mapstructure:"adaptSecurityContext,omitempty"`
 }
 
-type ValuesGlobalNodeSelector map[string]interface{}
+type ValuesGrafanaDashboard struct {
+	// Annotations corresponds to the JSON schema field "annotations".
+	Annotations map[string]interface{} `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+
+	// Enabled corresponds to the JSON schema field "enabled".
+	Enabled *bool `json:"enabled,omitempty" yaml:"enabled,omitempty" mapstructure:"enabled,omitempty"`
+
+	// SidecarLabel corresponds to the JSON schema field "sidecarLabel".
+	SidecarLabel *string `json:"sidecarLabel,omitempty" yaml:"sidecarLabel,omitempty" mapstructure:"sidecarLabel,omitempty"`
+
+	// SidecarLabelValue corresponds to the JSON schema field "sidecarLabelValue".
+	SidecarLabelValue *string `json:"sidecarLabelValue,omitempty" yaml:"sidecarLabelValue,omitempty" mapstructure:"sidecarLabelValue,omitempty"`
+}
 
 type ValuesImage struct {
 	// Flavour corresponds to the JSON schema field "flavour".
@@ -530,7 +511,7 @@ type ValuesMetricsListen struct {
 
 type ValuesMetricsService struct {
 	// Annotations corresponds to the JSON schema field "annotations".
-	Annotations ValuesMetricsServiceAnnotations `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations map[string]interface{} `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// Enabled corresponds to the JSON schema field "enabled".
 	Enabled *bool `json:"enabled,omitempty" yaml:"enabled,omitempty" mapstructure:"enabled,omitempty"`
@@ -538,12 +519,6 @@ type ValuesMetricsService struct {
 	// Port corresponds to the JSON schema field "port".
 	Port *int `json:"port,omitempty" yaml:"port,omitempty" mapstructure:"port,omitempty"`
 }
-
-type ValuesMetricsServiceAnnotations map[string]interface{}
-
-type ValuesNodeSelector map[string]interface{}
-
-type ValuesPodAnnotations map[string]interface{}
 
 type ValuesPodDisruptionBudget struct {
 	// Enabled corresponds to the JSON schema field "enabled".
@@ -553,16 +528,18 @@ type ValuesPodDisruptionBudget struct {
 	MinAvailable *int `json:"minAvailable,omitempty" yaml:"minAvailable,omitempty" mapstructure:"minAvailable,omitempty"`
 }
 
-type ValuesPodLabels map[string]interface{}
-
 type ValuesPodSecurityContext struct {
 	// Enabled corresponds to the JSON schema field "enabled".
 	Enabled *bool `json:"enabled,omitempty" yaml:"enabled,omitempty" mapstructure:"enabled,omitempty"`
 }
 
-type ValuesPodSpecExtra map[string]interface{}
-
 type ValuesRbac struct {
+	// AggregateToEdit corresponds to the JSON schema field "aggregateToEdit".
+	AggregateToEdit *bool `json:"aggregateToEdit,omitempty" yaml:"aggregateToEdit,omitempty" mapstructure:"aggregateToEdit,omitempty"`
+
+	// AggregateToView corresponds to the JSON schema field "aggregateToView".
+	AggregateToView *bool `json:"aggregateToView,omitempty" yaml:"aggregateToView,omitempty" mapstructure:"aggregateToView,omitempty"`
+
 	// Create corresponds to the JSON schema field "create".
 	Create *bool `json:"create,omitempty" yaml:"create,omitempty" mapstructure:"create,omitempty"`
 
@@ -574,8 +551,6 @@ type ValuesRbacServicebindings struct {
 	// Create corresponds to the JSON schema field "create".
 	Create *bool `json:"create,omitempty" yaml:"create,omitempty" mapstructure:"create,omitempty"`
 }
-
-type ValuesResources map[string]interface{}
 
 type ValuesSecurityContext struct {
 	// AllowPrivilegeEscalation corresponds to the JSON schema field
@@ -622,7 +597,7 @@ type ValuesService struct {
 
 type ValuesServiceAccount struct {
 	// Annotations corresponds to the JSON schema field "annotations".
-	Annotations ValuesServiceAccountAnnotations `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations map[string]interface{} `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// Automount corresponds to the JSON schema field "automount".
 	Automount *bool `json:"automount,omitempty" yaml:"automount,omitempty" mapstructure:"automount,omitempty"`
@@ -631,19 +606,15 @@ type ValuesServiceAccount struct {
 	Create *bool `json:"create,omitempty" yaml:"create,omitempty" mapstructure:"create,omitempty"`
 
 	// ExtraLabels corresponds to the JSON schema field "extraLabels".
-	ExtraLabels ValuesServiceAccountExtraLabels `json:"extraLabels,omitempty" yaml:"extraLabels,omitempty" mapstructure:"extraLabels,omitempty"`
+	ExtraLabels map[string]interface{} `json:"extraLabels,omitempty" yaml:"extraLabels,omitempty" mapstructure:"extraLabels,omitempty"`
 
 	// Name corresponds to the JSON schema field "name".
 	Name *string `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
 }
 
-type ValuesServiceAccountAnnotations map[string]interface{}
-
-type ValuesServiceAccountExtraLabels map[string]interface{}
-
 type ValuesServiceMonitor struct {
 	// AdditionalLabels corresponds to the JSON schema field "additionalLabels".
-	AdditionalLabels ValuesServiceMonitorAdditionalLabels `json:"additionalLabels,omitempty" yaml:"additionalLabels,omitempty" mapstructure:"additionalLabels,omitempty"`
+	AdditionalLabels map[string]interface{} `json:"additionalLabels,omitempty" yaml:"additionalLabels,omitempty" mapstructure:"additionalLabels,omitempty"`
 
 	// Enabled corresponds to the JSON schema field "enabled".
 	Enabled *bool `json:"enabled,omitempty" yaml:"enabled,omitempty" mapstructure:"enabled,omitempty"`
@@ -667,11 +638,12 @@ type ValuesServiceMonitor struct {
 	ScrapeTimeout *string `json:"scrapeTimeout,omitempty" yaml:"scrapeTimeout,omitempty" mapstructure:"scrapeTimeout,omitempty"`
 }
 
-type ValuesServiceMonitorAdditionalLabels map[string]interface{}
-
 type ValuesWebhook struct {
 	// Affinity corresponds to the JSON schema field "affinity".
-	Affinity ValuesWebhookAffinity `json:"affinity,omitempty" yaml:"affinity,omitempty" mapstructure:"affinity,omitempty"`
+	Affinity map[string]interface{} `json:"affinity,omitempty" yaml:"affinity,omitempty" mapstructure:"affinity,omitempty"`
+
+	// Annotations corresponds to the JSON schema field "annotations".
+	Annotations map[string]interface{} `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// CertCheckInterval corresponds to the JSON schema field "certCheckInterval".
 	CertCheckInterval *string `json:"certCheckInterval,omitempty" yaml:"certCheckInterval,omitempty" mapstructure:"certCheckInterval,omitempty"`
@@ -687,10 +659,10 @@ type ValuesWebhook struct {
 
 	// DeploymentAnnotations corresponds to the JSON schema field
 	// "deploymentAnnotations".
-	DeploymentAnnotations ValuesWebhookDeploymentAnnotations `json:"deploymentAnnotations,omitempty" yaml:"deploymentAnnotations,omitempty" mapstructure:"deploymentAnnotations,omitempty"`
+	DeploymentAnnotations map[string]interface{} `json:"deploymentAnnotations,omitempty" yaml:"deploymentAnnotations,omitempty" mapstructure:"deploymentAnnotations,omitempty"`
 
 	// ExtraArgs corresponds to the JSON schema field "extraArgs".
-	ExtraArgs ValuesWebhookExtraArgs `json:"extraArgs,omitempty" yaml:"extraArgs,omitempty" mapstructure:"extraArgs,omitempty"`
+	ExtraArgs map[string]interface{} `json:"extraArgs,omitempty" yaml:"extraArgs,omitempty" mapstructure:"extraArgs,omitempty"`
 
 	// ExtraEnv corresponds to the JSON schema field "extraEnv".
 	ExtraEnv []interface{} `json:"extraEnv,omitempty" yaml:"extraEnv,omitempty" mapstructure:"extraEnv,omitempty"`
@@ -729,16 +701,16 @@ type ValuesWebhook struct {
 	NameOverride *string `json:"nameOverride,omitempty" yaml:"nameOverride,omitempty" mapstructure:"nameOverride,omitempty"`
 
 	// NodeSelector corresponds to the JSON schema field "nodeSelector".
-	NodeSelector ValuesWebhookNodeSelector `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
+	NodeSelector map[string]interface{} `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty" mapstructure:"nodeSelector,omitempty"`
 
 	// PodAnnotations corresponds to the JSON schema field "podAnnotations".
-	PodAnnotations ValuesWebhookPodAnnotations `json:"podAnnotations,omitempty" yaml:"podAnnotations,omitempty" mapstructure:"podAnnotations,omitempty"`
+	PodAnnotations map[string]interface{} `json:"podAnnotations,omitempty" yaml:"podAnnotations,omitempty" mapstructure:"podAnnotations,omitempty"`
 
 	// PodDisruptionBudget corresponds to the JSON schema field "podDisruptionBudget".
 	PodDisruptionBudget *ValuesWebhookPodDisruptionBudget `json:"podDisruptionBudget,omitempty" yaml:"podDisruptionBudget,omitempty" mapstructure:"podDisruptionBudget,omitempty"`
 
 	// PodLabels corresponds to the JSON schema field "podLabels".
-	PodLabels ValuesWebhookPodLabels `json:"podLabels,omitempty" yaml:"podLabels,omitempty" mapstructure:"podLabels,omitempty"`
+	PodLabels map[string]interface{} `json:"podLabels,omitempty" yaml:"podLabels,omitempty" mapstructure:"podLabels,omitempty"`
 
 	// PodSecurityContext corresponds to the JSON schema field "podSecurityContext".
 	PodSecurityContext *ValuesWebhookPodSecurityContext `json:"podSecurityContext,omitempty" yaml:"podSecurityContext,omitempty" mapstructure:"podSecurityContext,omitempty"`
@@ -759,14 +731,14 @@ type ValuesWebhook struct {
 	ReplicaCount *int `json:"replicaCount,omitempty" yaml:"replicaCount,omitempty" mapstructure:"replicaCount,omitempty"`
 
 	// Resources corresponds to the JSON schema field "resources".
-	Resources ValuesWebhookResources `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
+	Resources map[string]interface{} `json:"resources,omitempty" yaml:"resources,omitempty" mapstructure:"resources,omitempty"`
 
 	// RevisionHistoryLimit corresponds to the JSON schema field
 	// "revisionHistoryLimit".
 	RevisionHistoryLimit *int `json:"revisionHistoryLimit,omitempty" yaml:"revisionHistoryLimit,omitempty" mapstructure:"revisionHistoryLimit,omitempty"`
 
 	// SecretAnnotations corresponds to the JSON schema field "secretAnnotations".
-	SecretAnnotations ValuesWebhookSecretAnnotations `json:"secretAnnotations,omitempty" yaml:"secretAnnotations,omitempty" mapstructure:"secretAnnotations,omitempty"`
+	SecretAnnotations map[string]interface{} `json:"secretAnnotations,omitempty" yaml:"secretAnnotations,omitempty" mapstructure:"secretAnnotations,omitempty"`
 
 	// SecurityContext corresponds to the JSON schema field "securityContext".
 	SecurityContext *ValuesWebhookSecurityContext `json:"securityContext,omitempty" yaml:"securityContext,omitempty" mapstructure:"securityContext,omitempty"`
@@ -785,8 +757,6 @@ type ValuesWebhook struct {
 	TopologySpreadConstraints []interface{} `json:"topologySpreadConstraints,omitempty" yaml:"topologySpreadConstraints,omitempty" mapstructure:"topologySpreadConstraints,omitempty"`
 }
 
-type ValuesWebhookAffinity map[string]interface{}
-
 type ValuesWebhookCertManager struct {
 	// AddInjectorAnnotations corresponds to the JSON schema field
 	// "addInjectorAnnotations".
@@ -801,7 +771,7 @@ type ValuesWebhookCertManager struct {
 
 type ValuesWebhookCertManagerCert struct {
 	// Annotations corresponds to the JSON schema field "annotations".
-	Annotations ValuesWebhookCertManagerCertAnnotations `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations map[string]interface{} `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// Create corresponds to the JSON schema field "create".
 	Create *bool `json:"create,omitempty" yaml:"create,omitempty" mapstructure:"create,omitempty"`
@@ -820,8 +790,6 @@ type ValuesWebhookCertManagerCert struct {
 	RevisionHistoryLimit *int `json:"revisionHistoryLimit,omitempty" yaml:"revisionHistoryLimit,omitempty" mapstructure:"revisionHistoryLimit,omitempty"`
 }
 
-type ValuesWebhookCertManagerCertAnnotations map[string]interface{}
-
 type ValuesWebhookCertManagerCertIssuerRef struct {
 	// Group corresponds to the JSON schema field "group".
 	Group *string `json:"group,omitempty" yaml:"group,omitempty" mapstructure:"group,omitempty"`
@@ -832,10 +800,6 @@ type ValuesWebhookCertManagerCertIssuerRef struct {
 	// Name corresponds to the JSON schema field "name".
 	Name *string `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
 }
-
-type ValuesWebhookDeploymentAnnotations map[string]interface{}
-
-type ValuesWebhookExtraArgs map[string]interface{}
 
 type ValuesWebhookImage struct {
 	// Flavour corresponds to the JSON schema field "flavour".
@@ -874,7 +838,7 @@ type ValuesWebhookMetricsListen struct {
 
 type ValuesWebhookMetricsService struct {
 	// Annotations corresponds to the JSON schema field "annotations".
-	Annotations ValuesWebhookMetricsServiceAnnotations `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations map[string]interface{} `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// Enabled corresponds to the JSON schema field "enabled".
 	Enabled *bool `json:"enabled,omitempty" yaml:"enabled,omitempty" mapstructure:"enabled,omitempty"`
@@ -883,12 +847,6 @@ type ValuesWebhookMetricsService struct {
 	Port *int `json:"port,omitempty" yaml:"port,omitempty" mapstructure:"port,omitempty"`
 }
 
-type ValuesWebhookMetricsServiceAnnotations map[string]interface{}
-
-type ValuesWebhookNodeSelector map[string]interface{}
-
-type ValuesWebhookPodAnnotations map[string]interface{}
-
 type ValuesWebhookPodDisruptionBudget struct {
 	// Enabled corresponds to the JSON schema field "enabled".
 	Enabled *bool `json:"enabled,omitempty" yaml:"enabled,omitempty" mapstructure:"enabled,omitempty"`
@@ -896,8 +854,6 @@ type ValuesWebhookPodDisruptionBudget struct {
 	// MinAvailable corresponds to the JSON schema field "minAvailable".
 	MinAvailable *int `json:"minAvailable,omitempty" yaml:"minAvailable,omitempty" mapstructure:"minAvailable,omitempty"`
 }
-
-type ValuesWebhookPodLabels map[string]interface{}
 
 type ValuesWebhookPodSecurityContext struct {
 	// Enabled corresponds to the JSON schema field "enabled".
@@ -916,10 +872,6 @@ type ValuesWebhookReadinessProbe struct {
 	// Port corresponds to the JSON schema field "port".
 	Port *int `json:"port,omitempty" yaml:"port,omitempty" mapstructure:"port,omitempty"`
 }
-
-type ValuesWebhookResources map[string]interface{}
-
-type ValuesWebhookSecretAnnotations map[string]interface{}
 
 type ValuesWebhookSecurityContext struct {
 	// AllowPrivilegeEscalation corresponds to the JSON schema field
@@ -958,13 +910,13 @@ type ValuesWebhookSecurityContextSeccompProfile struct {
 
 type ValuesWebhookService struct {
 	// Annotations corresponds to the JSON schema field "annotations".
-	Annotations ValuesWebhookServiceAnnotations `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations map[string]interface{} `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// Enabled corresponds to the JSON schema field "enabled".
 	Enabled *bool `json:"enabled,omitempty" yaml:"enabled,omitempty" mapstructure:"enabled,omitempty"`
 
 	// Labels corresponds to the JSON schema field "labels".
-	Labels ValuesWebhookServiceLabels `json:"labels,omitempty" yaml:"labels,omitempty" mapstructure:"labels,omitempty"`
+	Labels map[string]interface{} `json:"labels,omitempty" yaml:"labels,omitempty" mapstructure:"labels,omitempty"`
 
 	// LoadBalancerIP corresponds to the JSON schema field "loadBalancerIP".
 	LoadBalancerIP *string `json:"loadBalancerIP,omitempty" yaml:"loadBalancerIP,omitempty" mapstructure:"loadBalancerIP,omitempty"`
@@ -975,7 +927,7 @@ type ValuesWebhookService struct {
 
 type ValuesWebhookServiceAccount struct {
 	// Annotations corresponds to the JSON schema field "annotations".
-	Annotations ValuesWebhookServiceAccountAnnotations `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
+	Annotations map[string]interface{} `json:"annotations,omitempty" yaml:"annotations,omitempty" mapstructure:"annotations,omitempty"`
 
 	// Automount corresponds to the JSON schema field "automount".
 	Automount *bool `json:"automount,omitempty" yaml:"automount,omitempty" mapstructure:"automount,omitempty"`
@@ -984,16 +936,8 @@ type ValuesWebhookServiceAccount struct {
 	Create *bool `json:"create,omitempty" yaml:"create,omitempty" mapstructure:"create,omitempty"`
 
 	// ExtraLabels corresponds to the JSON schema field "extraLabels".
-	ExtraLabels ValuesWebhookServiceAccountExtraLabels `json:"extraLabels,omitempty" yaml:"extraLabels,omitempty" mapstructure:"extraLabels,omitempty"`
+	ExtraLabels map[string]interface{} `json:"extraLabels,omitempty" yaml:"extraLabels,omitempty" mapstructure:"extraLabels,omitempty"`
 
 	// Name corresponds to the JSON schema field "name".
 	Name *string `json:"name,omitempty" yaml:"name,omitempty" mapstructure:"name,omitempty"`
 }
-
-type ValuesWebhookServiceAccountAnnotations map[string]interface{}
-
-type ValuesWebhookServiceAccountExtraLabels map[string]interface{}
-
-type ValuesWebhookServiceAnnotations map[string]interface{}
-
-type ValuesWebhookServiceLabels map[string]interface{}

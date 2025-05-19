@@ -6,7 +6,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/external-secrets/external-secrets/apis/externalsecrets/v1beta1"
+	esov1 "github.com/external-secrets/external-secrets/apis/externalsecrets/v1"
 	esmeta "github.com/external-secrets/external-secrets/apis/meta/v1"
 
 	corev1 "k8s.io/api/core/v1"
@@ -85,21 +85,21 @@ func run() error {
 		Type:       corev1.SecretTypeOpaque,
 	}
 
-	vaultBackend := &v1beta1.SecretStore{
+	vaultBackend := &esov1.SecretStore{
 		TypeMeta: metav1.TypeMeta{
-			APIVersion: v1beta1.SchemeGroupVersion.Identifier(),
+			APIVersion: esov1.SchemeGroupVersion.Identifier(),
 			Kind:       "SecretStore",
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name: "vault-backend",
 		},
-		Spec: v1beta1.SecretStoreSpec{
-			Provider: &v1beta1.SecretStoreProvider{
-				Vault: &v1beta1.VaultProvider{
+		Spec: esov1.SecretStoreSpec{
+			Provider: &esov1.SecretStoreProvider{
+				Vault: &esov1.VaultProvider{
 					Server:  fmt.Sprintf("http://%s-vault:8200", flight.Release()),
 					Path:    ptr.To("secret"),
-					Version: v1beta1.VaultKVStoreV2,
-					Auth: &v1beta1.VaultAuth{
+					Version: esov1.VaultKVStoreV2,
+					Auth: &esov1.VaultAuth{
 						TokenSecretRef: &esmeta.SecretKeySelector{
 							Name: "vault-token",
 							Key:  "token",
