@@ -1,6 +1,7 @@
 package main
 
 import (
+	"cmp"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -44,7 +45,7 @@ func run() error {
 			Name: backend.Name,
 		},
 		Spec: appsv1.DeploymentSpec{
-			Replicas: ptr.To[int32](2),
+			Replicas: ptr.To(cmp.Or(backend.Spec.Replicas, 2)),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: labels,
 			},

@@ -24,6 +24,7 @@ type Backend struct {
 type BackendSpec struct {
 	Image      string            `json:"image"`
 	Command    []string          `json:"command,omitempty"`
+	Replicas   int32             `json:"replicas,omitempty"`
 	PathPrefix string            `json:"pathPrefix,omitempty"`
 	Env        map[string]string `json:"env,omitempty"`
 }

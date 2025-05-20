@@ -61,7 +61,7 @@ kubectl apply -f - <<EOF
     image: ealen/echo-server:latest
     pathPrefix: /echo
     env:
-      ENABLE__REQUEST: false
-      ENABLE__ENVIRONMENT: false
+      ENABLE__REQUEST: 'false'
+      ENABLE__ENVIRONMENT: 'false'
 EOF
 EEOF

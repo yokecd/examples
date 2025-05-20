@@ -1,6 +1,7 @@
 package main
 
 import (
+	"cmp"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -28,6 +29,7 @@ type Config struct {
 	Name       string            `json:"-"`
 	Image      string            `json:"image"`
 	Command    []string          `json:"command"`
+	Replicas   int32             `json:"replicas"`
 	PathPrefix string            `json:"pathPrefix"`
 	Env        map[string]string `json:"env"`
 }
@@ -55,7 +57,7 @@ func run() error {
 			Name: cfg.Name,
 		},
 		Spec: appsv1.DeploymentSpec{
-			Replicas: ptr.To[int32](2),
+			Replicas: ptr.To(cmp.Or(cfg.Replicas, 2)),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: labels,
 			},
