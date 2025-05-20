@@ -5,7 +5,7 @@ go install github.com/yokecd/yoke/cmd/yoke@latest
 
 # Delete and recreate a kind cluster called demo-ingress.
 # This cluster contains a host-port mapping so that we can send requests to the cluster over localhost.
-kind delete cluster --name=demo-ingress && kind create cluster --name=demo-ingress --config=- <<EOF
+kind delete cluster --name=demo-ingress-atc && kind create cluster --name=demo-ingress-atc --config=- <<EOF
   kind: Cluster
   apiVersion: kind.x-k8s.io/v1alpha4
   nodes:
