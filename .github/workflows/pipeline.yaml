@@ -40,6 +40,7 @@ jobs:
           go build -o ./atc_backend_airway.wasm ./atc/backend/airway
           go build -o ./atc_backend_airway_v2.wasm ./atc/backend/airwayv2
           go build -o ./demos_dynamic_mode_v1_flight.wasm ./demos/dynamic-mode/backend/v1/flight
+          go build -o ./demos_ingress_atc.wasm ./demos/ingress-atc/backend/v1/flight
 
           gzip atc_backend_v1_flight.wasm
           gzip atc_backend_v2_flight.wasm
@@ -47,6 +48,7 @@ jobs:
           gzip atc_backend_airway_v2.wasm
           gzip atc_backend_converter.wasm
           gzip demos_dynamic_mode_v1_flight.wasm
+          gzip demos_ingress_atc.wasm
 
           if [[ $(gh release list --json tagName -q 'any(.[]; .tagName == "latest")') != 'true' ]]; then
             gh release create latest ./atc_backend_v1_flight.wasm.gz ./atc_backend_airway.wasm.gz
@@ -57,7 +59,8 @@ jobs:
               ./atc_backend_converter.wasm.gz \
               ./atc_backend_airway.wasm.gz  \
               ./atc_backend_airway_v2.wasm.gz \
-              ./demos_dynamic_mode_v1_flight.wasm.gz
+              ./demos_dynamic_mode_v1_flight.wasm.gz \
+              ./demos_ingress_atc.wasm.gz
           fi
 
           git tag -f latest

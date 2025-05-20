@@ -139,6 +139,8 @@ github.com/xeipuuv/gojsonschema v1.2.0 h1:LhYJRs+L4fBtjZUfuSZIKGeVu0QRy8e5Xi7D17
 github.com/xeipuuv/gojsonschema v1.2.0/go.mod h1:anYRn/JVcOK2ZgGU+IjEV4nwlhoK5sQluxsYJ78Id3Y=
 github.com/yokecd/yoke v0.12.8 h1:o8Ujeh3fEz8rqur4zPY2XRFDI2ntocOreg8Mv2AyNFg=
 github.com/yokecd/yoke v0.12.8/go.mod h1:qGbJGU0VdE7f2Niv3GhTIcnjrbXd2kduUBmK9HpbpXI=
+github.com/yokecd/yoke v0.12.9 h1:RBtAwo2EUlZrdt/BW+EhqJ4tRF841W1b1A7KHpOzx2Y=
+github.com/yokecd/yoke v0.12.9/go.mod h1:qGbJGU0VdE7f2Niv3GhTIcnjrbXd2kduUBmK9HpbpXI=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.2.1/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 go.uber.org/automaxprocs v1.6.0 h1:O3y2/QNTOdbF+e/dpXNNW7Rx2hZ4sTIPyybbxyNqTUs=
