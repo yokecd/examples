@@ -3,9 +3,11 @@ set -eux -o pipefail
 # Make sure to have a recent installation of yoke
 go install github.com/yokecd/yoke/cmd/yoke@latest
 
+CLUSTER_NAME="demo-ingress"
+
 # Delete and recreate a kind cluster called demo-ingress.
 # This cluster contains a host-port mapping so that we can send requests to the cluster over localhost.
-kind delete cluster --name=demo-ingress && kind create cluster --name=demo-ingress --config=- <<EOF
+kind delete cluster --name=$CLUSTER_NAME && kind create cluster --name=$CLUSTER_NAME --config=- <<EOF
   kind: Cluster
   apiVersion: kind.x-k8s.io/v1alpha4
   nodes:

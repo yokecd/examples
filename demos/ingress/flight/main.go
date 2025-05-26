@@ -44,7 +44,7 @@ func run() error {
 		return fmt.Errorf("failed to unmarshal input into expected config: %w", err)
 	}
 
-	labels := map[string]string{
+	selector := map[string]string{
 		"app.kubernetes.io/name": cfg.Name,
 	}
 
@@ -59,12 +59,12 @@ func run() error {
 		Spec: appsv1.DeploymentSpec{
 			Replicas: ptr.To(cmp.Or(cfg.Replicas, 2)),
 			Selector: &metav1.LabelSelector{
-				MatchLabels: labels,
+				MatchLabels: selector,
 			},
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:   cfg.Name,
-					Labels: labels,
+					Labels: selector,
 				},
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{
@@ -98,7 +98,7 @@ func run() error {
 			Name: cfg.Name,
 		},
 		Spec: corev1.ServiceSpec{
-			Selector: labels,
+			Selector: selector,
 			Ports: []corev1.ServicePort{
 				{
 					Name:       "http",
