@@ -32,7 +32,7 @@ func run() error {
 		return fmt.Errorf("failed to unmarshal input as backend: %w", err)
 	}
 
-	labels := map[string]string{
+	selector := map[string]string{
 		"app.kubernetes.io/name": backend.Name,
 	}
 
@@ -47,12 +47,12 @@ func run() error {
 		Spec: appsv1.DeploymentSpec{
 			Replicas: ptr.To(cmp.Or(backend.Spec.Replicas, 2)),
 			Selector: &metav1.LabelSelector{
-				MatchLabels: labels,
+				MatchLabels: selector,
 			},
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:   backend.Name,
-					Labels: labels,
+					Labels: selector,
 				},
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{
@@ -86,7 +86,7 @@ func run() error {
 			Name: backend.Name,
 		},
 		Spec: corev1.ServiceSpec{
-			Selector: labels,
+			Selector: selector,
 			Ports: []corev1.ServicePort{
 				{
 					Name:       "http",
