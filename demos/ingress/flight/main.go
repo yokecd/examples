@@ -1,7 +1,6 @@
 package main
 
 import (
-	"cmp"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -15,6 +14,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 	"k8s.io/apimachinery/pkg/util/yaml"
+
 	"k8s.io/utils/ptr"
 )
 
@@ -36,8 +36,9 @@ type Config struct {
 
 func run() error {
 	cfg := Config{
-		Name:  flight.Release(),
-		Image: "ealen/echo-server:latest",
+		Name:     flight.Release(),
+		Image:    "ealen/echo-server:latest",
+		Replicas: 2,
 	}
 
 	if err := yaml.NewYAMLToJSONDecoder(os.Stdin).Decode(&cfg); err != nil && err != io.EOF {
@@ -57,7 +58,7 @@ func run() error {
 			Name: cfg.Name,
 		},
 		Spec: appsv1.DeploymentSpec{
-			Replicas: ptr.To(cmp.Or(cfg.Replicas, 2)),
+			Replicas: &cfg.Replicas,
 			Selector: &metav1.LabelSelector{
 				MatchLabels: selector,
 			},

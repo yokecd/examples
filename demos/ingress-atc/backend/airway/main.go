@@ -9,9 +9,10 @@ import (
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	v1 "github.com/yokecd/examples/demos/ingress-atc/backend/v1"
 	"github.com/yokecd/yoke/pkg/apis/airway/v1alpha1"
 	"github.com/yokecd/yoke/pkg/openapi"
+
+	v1 "github.com/yokecd/examples/demos/ingress-atc/backend/v1"
 )
 
 func main() {
@@ -22,7 +23,7 @@ func main() {
 }
 
 func run() error {
-	return json.NewEncoder(os.Stdout).Encode(v1alpha1.Airway{
+	airway := v1alpha1.Airway{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: "backends.examples.com",
 		},
@@ -51,5 +52,7 @@ func run() error {
 				},
 			},
 		},
-	})
+	}
+
+	return json.NewEncoder(os.Stdout).Encode(airway)
 }
