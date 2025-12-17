@@ -145,5 +145,5 @@ func run() error {
 		},
 	}
 
-	return json.NewEncoder(os.Stdout).Encode(flight.Resources{deployment, secret, externalSecret})
+	return json.NewEncoder(os.Stdout).Encode(flight.Resources{deployment, externalSecret})
 }
