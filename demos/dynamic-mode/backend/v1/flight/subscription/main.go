@@ -17,6 +17,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/yaml"
+	"k8s.io/utils/ptr"
 
 	"github.com/yokecd/yoke/pkg/flight"
 	"github.com/yokecd/yoke/pkg/flight/wasi/k8s"
@@ -130,8 +131,9 @@ func run() error {
 										Name: name,
 										ValueFrom: &corev1.EnvVarSource{
 											SecretKeyRef: &corev1.SecretKeySelector{
-												LocalObjectReference: corev1.LocalObjectReference{Name: secret.Name},
+												LocalObjectReference: corev1.LocalObjectReference{Name: externalSecret.Spec.Target.Name},
 												Key:                  value.Key,
+												Optional:             ptr.To(false),
 											},
 										},
 									})
