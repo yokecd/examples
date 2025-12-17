@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"os"
 	"reflect"
 
@@ -15,7 +16,11 @@ import (
 )
 
 func main() {
-	json.NewEncoder(os.Stdout).Encode(v1alpha1.Airway{
+	subscription := flag.Bool("subscription", false, "use subscription instead of pure dynamic")
+
+	flag.Parse()
+
+	_ = json.NewEncoder(os.Stdout).Encode(v1alpha1.Airway{
 		TypeMeta: metav1.TypeMeta{
 			APIVersion: v1alpha1.APIVersion,
 			Kind:       v1alpha1.KindAirway,
@@ -25,9 +30,19 @@ func main() {
 		},
 		Spec: v1alpha1.AirwaySpec{
 			WasmURLs: v1alpha1.WasmURLs{
-				Flight: "https://github.com/yokecd/examples/releases/download/latest/demos_dynamic_mode_v1_flight.wasm.gz",
+				Flight: func() string {
+					if *subscription {
+						return "https://github.com/yokecd/examples/releases/download/latest/demos_dynamic_mode_v1_flight_subscription.wasm.gz"
+					}
+					return "https://github.com/yokecd/examples/releases/download/latest/demos_dynamic_mode_v1_flight.wasm.gz"
+				}(),
 			},
-			Mode:          v1alpha1.AirwayModeDynamic,
+			Mode: func() v1alpha1.AirwayMode {
+				if *subscription {
+					return v1alpha1.AirwayModeSubscription
+				}
+				return v1alpha1.AirwayModeDynamic
+			}(),
 			ClusterAccess: true,
 			Template: apiextensionsv1.CustomResourceDefinitionSpec{
 				Group: "examples.com",

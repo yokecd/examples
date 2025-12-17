@@ -54,4 +54,8 @@ cat <<EOF
 # Run this commented command at your leisure to update the deployment by changing the secret in vault.
 
 VAULT_ADDR=http://localhost:8200 VAULT_TOKEN=root vault kv put secret/demo hello=fromtheotherside
+
+# For a less resource intensive implementation try subscription mode:
+
+go run ./demos/dynamic-mode/airway -subscription | yoke takeoff -debug -wait 1m demo-airway
 EOF
