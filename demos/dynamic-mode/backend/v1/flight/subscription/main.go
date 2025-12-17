@@ -61,7 +61,7 @@ func run() error {
 			},
 			Target: esov1.ExternalSecretTarget{
 				Name:           backend.Name,
-				CreationPolicy: esov1.CreatePolicyMerge,
+				CreationPolicy: esov1.CreatePolicyOwner,
 			},
 			Data: func() []esov1.ExternalSecretData {
 				var result []esov1.ExternalSecretData
