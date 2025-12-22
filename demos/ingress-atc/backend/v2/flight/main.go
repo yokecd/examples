@@ -1,6 +1,7 @@
 package main
 
 import (
+	"cmp"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -8,13 +9,14 @@ import (
 
 	"github.com/yokecd/yoke/pkg/flight"
 
+	v2 "github.com/yokecd/examples/demos/ingress-atc/backend/v2"
+
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	networkingv1 "k8s.io/api/networking/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 	"k8s.io/apimachinery/pkg/util/yaml"
-
 	"k8s.io/utils/ptr"
 )
 
@@ -25,28 +27,14 @@ func main() {
 	}
 }
 
-type Config struct {
-	Name       string            `json:"-"`
-	Image      string            `json:"image"`
-	Command    []string          `json:"command"`
-	Replicas   int32             `json:"replicas"`
-	PathPrefix string            `json:"pathPrefix"`
-	Env        map[string]string `json:"env"`
-}
-
 func run() error {
-	cfg := Config{
-		Name:     flight.Release(),
-		Image:    "ealen/echo-server:latest",
-		Replicas: 2,
-	}
-
-	if err := yaml.NewYAMLToJSONDecoder(os.Stdin).Decode(&cfg); err != nil && err != io.EOF {
-		return fmt.Errorf("failed to unmarshal input into expected config: %w", err)
+	var backend v2.Backend
+	if err := yaml.NewYAMLToJSONDecoder(os.Stdin).Decode(&backend); err != nil && err != io.EOF {
+		return fmt.Errorf("failed to unmarshal input as backend: %w", err)
 	}
 
 	selector := map[string]string{
-		"app.kubernetes.io/name": cfg.Name,
+		"app.kubernetes.io/name": backend.Name,
 	}
 
 	deployment := &appsv1.Deployment{
@@ -55,30 +43,42 @@ func run() error {
 			APIVersion: appsv1.SchemeGroupVersion.Identifier(),
 		},
 		ObjectMeta: metav1.ObjectMeta{
-			Name: cfg.Name,
+			Name: backend.Name,
 		},
 		Spec: appsv1.DeploymentSpec{
-			Replicas: &cfg.Replicas,
+			Replicas: ptr.To(cmp.Or(backend.Spec.Replicas, 2)),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: selector,
 			},
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
-					Name:   cfg.Name,
+					Name:   backend.Name,
 					Labels: selector,
 				},
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{
 						{
 							Name:    "main",
-							Image:   cfg.Image,
-							Command: cfg.Command,
+							Image:   backend.Spec.Image,
+							Command: backend.Spec.Command,
 							Env: func() []corev1.EnvVar {
 								var result []corev1.EnvVar
-								for key, value := range cfg.Env {
+								for name, env := range backend.Spec.Env {
+									if env.PlainText != "" {
+										result = append(result, corev1.EnvVar{
+											Name:  name,
+											Value: env.PlainText,
+										})
+										continue
+									}
 									result = append(result, corev1.EnvVar{
-										Name:  key,
-										Value: value,
+										Name: name,
+										ValueFrom: &corev1.EnvVarSource{
+											SecretKeyRef: &corev1.SecretKeySelector{
+												LocalObjectReference: corev1.LocalObjectReference{Name: env.Secret.Name},
+												Key:                  env.Secret.Key,
+											},
+										},
 									})
 								}
 								return result
@@ -96,7 +96,7 @@ func run() error {
 			APIVersion: corev1.SchemeGroupVersion.Identifier(),
 		},
 		ObjectMeta: metav1.ObjectMeta{
-			Name: cfg.Name,
+			Name: backend.Name,
 		},
 		Spec: corev1.ServiceSpec{
 			Selector: selector,
@@ -112,7 +112,7 @@ func run() error {
 	}
 
 	ingress := func() *networkingv1.Ingress {
-		if cfg.PathPrefix == "" {
+		if backend.Spec.PathPrefix == "" {
 			return nil
 		}
 
@@ -122,7 +122,7 @@ func run() error {
 				APIVersion: networkingv1.SchemeGroupVersion.Identifier(),
 			},
 			ObjectMeta: metav1.ObjectMeta{
-				Name: cfg.Name,
+				Name: backend.Name,
 			},
 			Spec: networkingv1.IngressSpec{
 				Rules: []networkingv1.IngressRule{
@@ -132,12 +132,12 @@ func run() error {
 								Paths: []networkingv1.HTTPIngressPath{
 									{
 										PathType: ptr.To(networkingv1.PathTypePrefix),
-										Path:     cfg.PathPrefix,
+										Path:     backend.Spec.PathPrefix,
 										Backend: networkingv1.IngressBackend{
 											Service: &networkingv1.IngressServiceBackend{
 												Name: svc.Name,
 												Port: networkingv1.ServiceBackendPort{
-													Name: svc.Spec.Ports[0].Name,
+													Name: "http",
 												},
 											},
 										},
