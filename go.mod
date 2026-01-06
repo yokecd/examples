@@ -5,7 +5,7 @@ go 1.25.1
 require (
 	github.com/external-secrets/external-secrets/apis v0.0.0-20251216123301-4473156ac6b7
 	github.com/stretchr/testify v1.11.1
-	github.com/yokecd/yoke v0.19.3
+	github.com/yokecd/yoke v0.19.5
 	k8s.io/api v0.34.3
 	k8s.io/apiextensions-apiserver v0.34.3
 	k8s.io/apimachinery v0.34.3
