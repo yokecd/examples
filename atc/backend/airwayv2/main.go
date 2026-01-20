@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"reflect"
 
 	apiextv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -49,7 +48,7 @@ func run() error {
 						Served:  true,
 						Storage: true,
 						Schema: &apiextv1.CustomResourceValidation{
-							OpenAPIV3Schema: openapi.SchemaFrom(reflect.TypeFor[v2.Backend]()),
+							OpenAPIV3Schema: openapi.SchemaFor[v2.Backend](),
 						},
 					},
 					{
@@ -57,7 +56,7 @@ func run() error {
 						Served:  true,
 						Storage: false,
 						Schema: &apiextv1.CustomResourceValidation{
-							OpenAPIV3Schema: openapi.SchemaFrom(reflect.TypeFor[v1.Backend]()),
+							OpenAPIV3Schema: openapi.SchemaFor[v1.Backend](),
 						},
 					},
 				},

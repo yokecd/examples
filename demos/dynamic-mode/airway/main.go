@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"flag"
 	"os"
-	"reflect"
 
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -59,7 +58,7 @@ func main() {
 						Served:  true,
 						Storage: true,
 						Schema: &apiextensionsv1.CustomResourceValidation{
-							OpenAPIV3Schema: openapi.SchemaFrom(reflect.TypeFor[v1.Backend]()),
+							OpenAPIV3Schema: openapi.SchemaFor[v1.Backend](),
 						},
 					},
 				},
