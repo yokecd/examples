@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 
 	"github.com/yokecd/yoke/pkg/flight"
 
@@ -32,6 +33,7 @@ type Config struct {
 	Replicas   int32             `json:"replicas"`
 	PathPrefix string            `json:"pathPrefix"`
 	Env        map[string]string `json:"env"`
+	Port       int               `json:"port"`
 }
 
 func run() error {
@@ -39,6 +41,8 @@ func run() error {
 		Name:     flight.Release(),
 		Image:    "ealen/echo-server:latest",
 		Replicas: 2,
+		Port:     3000,
+		Env:      map[string]string{},
 	}
 
 	if err := yaml.NewYAMLToJSONDecoder(os.Stdin).Decode(&cfg); err != nil && err != io.EOF {
@@ -48,6 +52,8 @@ func run() error {
 	selector := map[string]string{
 		"app.kubernetes.io/name": cfg.Name,
 	}
+
+	cfg.Env["PORT"] = strconv.Itoa(cfg.Port)
 
 	deployment := &appsv1.Deployment{
 		TypeMeta: metav1.TypeMeta{
@@ -105,7 +111,7 @@ func run() error {
 					Name:       "http",
 					Protocol:   corev1.ProtocolTCP,
 					Port:       80,
-					TargetPort: intstr.FromInt(80),
+					TargetPort: intstr.FromInt(cfg.Port),
 				},
 			},
 		},

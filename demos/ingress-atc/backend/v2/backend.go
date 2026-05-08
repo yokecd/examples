@@ -37,6 +37,7 @@ type BackendSpec struct {
 	Replicas   int32             `json:"replicas,omitempty"`
 	PathPrefix string            `json:"pathPrefix,omitempty"`
 	Env        map[string]Envvar `json:"env,omitempty"`
+	Port       int               `json:"port,omitzero"`
 }
 
 func (backend Backend) MarshalJSON() ([]byte, error) {

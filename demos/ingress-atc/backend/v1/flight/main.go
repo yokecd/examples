@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 
 	"github.com/yokecd/yoke/pkg/flight"
 
@@ -36,6 +37,14 @@ func run() error {
 	selector := map[string]string{
 		"app.kubernetes.io/name": backend.Name,
 	}
+
+	backend.Spec.Port = cmp.Or(backend.Spec.Port, 3000)
+
+	if backend.Spec.Env == nil {
+		backend.Spec.Env = map[string]string{}
+	}
+
+	backend.Spec.Env["PORT"] = strconv.Itoa(backend.Spec.Port)
 
 	deployment := &appsv1.Deployment{
 		TypeMeta: metav1.TypeMeta{
@@ -93,7 +102,7 @@ func run() error {
 					Name:       "http",
 					Protocol:   corev1.ProtocolTCP,
 					Port:       80,
-					TargetPort: intstr.FromInt(80),
+					TargetPort: intstr.FromInt(backend.Spec.Port),
 				},
 			},
 		},
