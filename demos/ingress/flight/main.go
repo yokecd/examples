@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/davidmdm/x/xerr"
 	"github.com/yokecd/yoke/pkg/flight"
 
 	appsv1 "k8s.io/api/apps/v1"
@@ -36,6 +37,17 @@ type Config struct {
 	Port       int               `json:"port"`
 }
 
+func (cfg Config) Validate() error {
+	var errs []error
+	if cfg.Port <= 1024 {
+		errs = append(errs, fmt.Errorf("port %d is illegal: privileged ports are not allowed: choose a port greater than 1024", cfg.Port))
+	}
+	if cfg.Image == "" {
+		errs = append(errs, fmt.Errorf("image cannot be empty"))
+	}
+	return xerr.Join(errs...)
+}
+
 func run() error {
 	cfg := Config{
 		Name:     flight.Release(),
@@ -47,6 +59,10 @@ func run() error {
 
 	if err := yaml.NewYAMLToJSONDecoder(os.Stdin).Decode(&cfg); err != nil && err != io.EOF {
 		return fmt.Errorf("failed to unmarshal input into expected config: %w", err)
+	}
+
+	if err := cfg.Validate(); err != nil {
+		return fmt.Errorf("invalid config: %w", err)
 	}
 
 	selector := map[string]string{
@@ -105,7 +121,7 @@ func run() error {
 			Name: cfg.Name,
 		},
 		Spec: corev1.ServiceSpec{
-			Selector: selector,
+			Selector: deployment.Spec.Selector.MatchLabels,
 			Ports: []corev1.ServicePort{
 				{
 					Name:       "http",
